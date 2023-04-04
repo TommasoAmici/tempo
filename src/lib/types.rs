@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use time::Date;
 
 pub type Hour = u64;
 pub type Minute = u64;

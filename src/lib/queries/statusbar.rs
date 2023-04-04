@@ -1,7 +1,11 @@
+use serde::{Deserialize, Serialize};
 use sqlx::SqlitePool;
 
 use crate::errors::Error;
 
+use super::analysis;
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct TimePerCategory {
     pub name: String,
     pub time_spent: Option<f64>,
@@ -12,34 +16,18 @@ pub async fn get_time_per_project(
     pool: &SqlitePool,
     user_id: i64,
 ) -> Result<Vec<TimePerCategory>, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
-
-    let results = sqlx::query_file_as!(
-        TimePerCategory,
-        "src/lib/queries/time_per_project.sql",
-        user_id,
-    )
-    .fetch_all(&mut conn)
-    .await
-    .map_err(|_| Error::DBFailedQuery)?;
-    return Ok(results);
+    let today = time::OffsetDateTime::now_utc().date();
+    let tomorrow = today + time::Duration::days(1);
+    analysis::projects_activity(pool, user_id, Some(today), Some(tomorrow)).await
 }
 
 pub async fn get_time_per_language(
     pool: &SqlitePool,
     user_id: i64,
 ) -> Result<Vec<TimePerCategory>, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
-
-    let results = sqlx::query_file_as!(
-        TimePerCategory,
-        "src/lib/queries/time_per_language.sql",
-        user_id,
-    )
-    .fetch_all(&mut conn)
-    .await
-    .map_err(|_| Error::DBFailedQuery)?;
-    return Ok(results);
+    let today = time::OffsetDateTime::now_utc().date();
+    let tomorrow = today + time::Duration::days(1);
+    analysis::languages_activity(pool, user_id, Some(today), Some(tomorrow), None).await
 }
 
 pub async fn get_time_per_branch(

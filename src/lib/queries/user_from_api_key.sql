@@ -5,4 +5,4 @@ SELECT
     token,
     created_at
 FROM users
-WHERE token = ? LIMIT 1
+WHERE token = ?1 LIMIT 1

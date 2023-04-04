@@ -6,7 +6,7 @@ use crate::lib::types::{Status, StatusbarResponse, StatusbarResponseData};
 use actix_web::{get, web, Error as AWError, HttpRequest, HttpResponse};
 use sqlx::SqlitePool;
 
-fn format_time_per_category(data: &Vec<TimePerCategory>) -> Vec<Status> {
+pub fn format_time_per_category(data: &Vec<TimePerCategory>) -> Vec<Status> {
     data.iter()
         .map(|t| {
             let mut status = match t.time_spent {
@@ -23,7 +23,7 @@ fn format_time_per_category(data: &Vec<TimePerCategory>) -> Vec<Status> {
         .collect()
 }
 
-fn grand_total_from_projects(data: &Vec<TimePerCategory>) -> Status {
+fn grand_total_from_category(data: &Vec<TimePerCategory>) -> Status {
     let time = data
         .iter()
         .fold(0.0, |acc, e| acc + e.time_spent.unwrap_or(0.0));
@@ -37,7 +37,7 @@ async fn statusbar(req: HttpRequest, db: web::Data<SqlitePool>) -> Result<HttpRe
     let languages = queries::statusbar::get_time_per_language(&db, user_id).await?;
     let formatted_projects = format_time_per_category(&projects);
     let formatted_languages = format_time_per_category(&languages);
-    let grand_total = grand_total_from_projects(&projects);
+    let grand_total = grand_total_from_category(&projects);
     let now = time::OffsetDateTime::now_utc();
     let response = StatusbarResponse {
         cached_at: now,
