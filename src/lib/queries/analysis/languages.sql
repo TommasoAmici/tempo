@@ -8,8 +8,9 @@ WITH sorted_heartbeats AS (
         ) AS prev_time
     FROM heartbeats
     WHERE user_id = ?1
-        AND DATE("time", 'unixepoch') >= COALESCE(?2, DATE("time", 'unixepoch'))
-        AND DATE("time", 'unixepoch') <= COALESCE(?3, DATE("time", 'unixepoch'))
+        AND "project" = COALESCE(?2, "project")
+        AND DATE("time", 'unixepoch') >= COALESCE(?3, DATE("time", 'unixepoch'))
+        AND DATE("time", 'unixepoch') <= COALESCE(?4, DATE("time", 'unixepoch'))
 ),
 calculated_times AS (
     SELECT id,
@@ -31,10 +32,8 @@ SELECT "language" AS "name: String",
     SUM(time_diff) /(
         SELECT SUM(time_diff)
         FROM calculated_times
-        WHERE "project" = COALESCE(?4, "project")
     ) AS "time_percentage: f64"
 FROM calculated_times
-WHERE "project" = COALESCE(?4, "project")
 GROUP BY "language"
 HAVING "language" != ''
 ORDER BY "time_spent: f64" DESC,

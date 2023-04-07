@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use sqlx::SqlitePool;
 
-use crate::errors::Error;
+use crate::{errors::Error, handlers::analysis::FilterQueryParams};
 
 use super::analysis;
 
@@ -18,7 +18,7 @@ pub async fn get_time_per_project(
 ) -> Result<Vec<TimePerCategory>, Error> {
     let today = time::OffsetDateTime::now_utc().date();
     let tomorrow = today + time::Duration::days(1);
-    analysis::projects_activity(pool, user_id, Some(today), Some(tomorrow)).await
+    analysis::projects_activity(pool, user_id, &Some(today), &Some(tomorrow)).await
 }
 
 pub async fn get_time_per_language(
@@ -27,7 +27,16 @@ pub async fn get_time_per_language(
 ) -> Result<Vec<TimePerCategory>, Error> {
     let today = time::OffsetDateTime::now_utc().date();
     let tomorrow = today + time::Duration::days(1);
-    analysis::languages_activity(pool, user_id, Some(today), Some(tomorrow), None).await
+    analysis::languages_activity(
+        pool,
+        user_id,
+        &FilterQueryParams {
+            project: None,
+            date_end: Some(today),
+            date_start: Some(tomorrow),
+        },
+    )
+    .await
 }
 
 pub async fn get_time_per_branch(
