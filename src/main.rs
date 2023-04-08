@@ -52,6 +52,7 @@ async fn main() -> std::io::Result<()> {
                             .service(users::signup)
                             .service(users::login)
                             .service(users::token_generate)
+                            .service(users::get_user_projects)
                             .service(analysis::heatmap)
                             .service(analysis::branches)
                             .service(analysis::languages),
