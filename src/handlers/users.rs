@@ -26,9 +26,9 @@ pub async fn login(
     db: web::Data<SqlitePool>,
     user: web::Json<UserAuth>,
 ) -> Result<HttpResponse, AWError> {
-    let token = authenticate_user(&db, &user).await?;
+    let user_data = authenticate_user(&db, &user).await?;
 
-    Ok(HttpResponse::Ok().json(json!({ "user_id": token.0, "token": token.1 })))
+    Ok(HttpResponse::Ok().json(json!({ "user_id": user_data.0, "token": user_data.1 })))
 }
 
 #[post("/token/generate")]
