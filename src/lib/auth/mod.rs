@@ -18,7 +18,7 @@ pub async fn create_user(pool: &SqlitePool, user: &UserAuth) -> Result<String, E
 
     let password_hash = auth::password::hash_password(&user.password)?;
     let token = auth::token::generate_api_token();
-    let lower_case_email = user.email.to_lowercase();
+    let lower_case_email = user.email.trim().to_lowercase();
     sqlx::query!(
         "INSERT INTO users (password_hash, email, token) VALUES (?, ?, ?)",
         password_hash,
@@ -42,7 +42,7 @@ pub async fn authenticate_user(
     user: &UserAuth,
 ) -> Result<(String, String), Error> {
     let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
-    let lower_case_email = user.email.to_lowercase();
+    let lower_case_email = user.email.trim().to_lowercase();
     let row = sqlx::query!(
         r#"SELECT CAST(id AS TEXT) AS "id!: String", password_hash, token FROM users WHERE email = ? LIMIT 1"#,
         lower_case_email,
