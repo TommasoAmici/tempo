@@ -13,7 +13,14 @@ pub struct UserAuth {
     password: String,
 }
 
-pub async fn create_user(pool: &SqlitePool, user: &UserAuth) -> Result<String, Error> {
+#[derive(Debug, Serialize, Deserialize)]
+pub struct UserSignupAuth {
+    pub email: String,
+    pub password: String,
+    pub repeat_password: String,
+}
+
+pub async fn create_user(pool: &SqlitePool, user: &UserSignupAuth) -> Result<String, Error> {
     let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
 
     let password_hash = auth::password::hash_password(&user.password)?;

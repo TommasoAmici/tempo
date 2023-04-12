@@ -1,9 +1,12 @@
-use crate::lib::{
-    auth::{
-        authenticate_user, create_user, parse_header::user_id_from_authorization_header,
-        regenerate_token, UserAuth,
+use crate::{
+    errors::Error,
+    lib::{
+        auth::{
+            authenticate_user, create_user, parse_header::user_id_from_authorization_header,
+            regenerate_token, UserAuth, UserSignupAuth,
+        },
+        queries::user,
     },
-    queries::user,
 };
 use actix_web::{get, post, web, Error as AWError, HttpRequest, HttpResponse};
 use serde_json::json;
@@ -14,8 +17,12 @@ use super::analysis::FilterQueryParams;
 #[post("/signup")]
 pub async fn signup(
     db: web::Data<SqlitePool>,
-    user: web::Json<UserAuth>,
+    user: web::Json<UserSignupAuth>,
 ) -> Result<HttpResponse, AWError> {
+    if user.password != user.repeat_password {
+        return Err(Error::PasswordsDontMatch.into());
+    }
+
     let token = create_user(&db, &user).await?;
 
     Ok(HttpResponse::Created().json(json!({ "token": token })))
