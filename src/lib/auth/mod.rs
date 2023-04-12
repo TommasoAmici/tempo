@@ -37,11 +37,11 @@ pub async fn create_user(pool: &SqlitePool, user: &UserAuth) -> Result<String, E
     Ok(token)
 }
 
-pub async fn authenticate_user(pool: &SqlitePool, user: &UserAuth) -> Result<String, Error> {
+pub async fn authenticate_user(pool: &SqlitePool, user: &UserAuth) -> Result<(i64, String), Error> {
     let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
 
     let row = sqlx::query!(
-        "SELECT password_hash, token FROM users WHERE email = ? LIMIT 1",
+        r#"SELECT id AS "id!", password_hash, token FROM users WHERE email = ? LIMIT 1"#,
         user.email,
     )
     .fetch_one(&mut conn)
@@ -51,7 +51,7 @@ pub async fn authenticate_user(pool: &SqlitePool, user: &UserAuth) -> Result<Str
     let verified = password::verify_password(&user.password, &row.password_hash)?;
 
     if verified {
-        return Ok(row.token);
+        return Ok((row.id, row.token));
     } else {
         return Err(Error::WrongUsernameOrPassword);
     }

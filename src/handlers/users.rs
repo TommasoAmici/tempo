@@ -28,7 +28,7 @@ pub async fn login(
 ) -> Result<HttpResponse, AWError> {
     let token = authenticate_user(&db, &user).await?;
 
-    Ok(HttpResponse::Ok().json(json!({ "token": token })))
+    Ok(HttpResponse::Ok().json(json!({ "user_id": token.0, "token": token.1 })))
 }
 
 #[post("/token/generate")]
