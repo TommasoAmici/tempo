@@ -2,6 +2,7 @@
 
 import { Alert } from "@/components/Alert";
 import { Form } from "@/components/Form";
+import { Heading } from "@/components/Heading";
 import { AuthContext } from "@/contexts/AuthContext";
 import { MIN_PASSWORD_LENGTH } from "@/lib/password";
 import { Button, FormControl, TextInput } from "@primer/react";
@@ -43,7 +44,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <h1>Login</h1>
+      <Heading as="h1">Login</Heading>
       {errorMessage && <Alert status={error}>{errorMessage}</Alert>}
       <Form formMethod="POST" onSubmit={handleSubmit}>
         <FormControl required>

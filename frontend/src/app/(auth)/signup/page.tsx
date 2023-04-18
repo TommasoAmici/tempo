@@ -2,6 +2,7 @@
 
 import { Alert } from "@/components/Alert";
 import { Form } from "@/components/Form";
+import { Heading } from "@/components/Heading";
 import { MIN_PASSWORD_LENGTH } from "@/lib/password";
 import { Button, FormControl, TextInput } from "@primer/react";
 import Link from "next/link";
@@ -37,7 +38,7 @@ export default function SignupPage() {
 
   return (
     <>
-      <h1>Signup</h1>
+      <Heading as="h1">Signup</Heading>
       {errorMessage && <Alert status={error}>{errorMessage}</Alert>}
       <Form onSubmit={handleSubmit}>
         <FormControl required>
