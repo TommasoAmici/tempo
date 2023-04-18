@@ -32,6 +32,7 @@ pub async fn get_time_per_language(
         user_id,
         &FilterQueryParams {
             project: None,
+            branch: None,
             date_end: Some(today),
             date_start: Some(tomorrow),
         },

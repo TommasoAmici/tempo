@@ -1,15 +1,11 @@
+import type { URLFilters } from "@/hooks/url";
 import { useHeatmap } from "../hooks/useHeatmap";
-import { DateFilter } from "../lib/filters";
 import { CalendarHeatmap } from "./charts/CalendarHeatmap";
 
-type Props = {
-  project?: string | null;
-  dateStart?: DateFilter;
-  dateEnd?: DateFilter;
-};
+type Props = URLFilters;
 
-export function Heatmap({ project, dateStart, dateEnd }: Props) {
-  const { data } = useHeatmap({ project, dateStart, dateEnd });
+export function Heatmap({ ...filters }: Props) {
+  const { data } = useHeatmap(filters);
 
   return (
     <div className="h-44 w-full">

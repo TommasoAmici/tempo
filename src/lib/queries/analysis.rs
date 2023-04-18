@@ -23,6 +23,7 @@ pub async fn days_heatmap(
         "src/lib/queries/analysis/heatmap.sql",
         user_id,
         params.project,
+        params.branch,
         params.date_start,
         params.date_end
     )
@@ -51,6 +52,7 @@ pub async fn branches_activity(
         "src/lib/queries/analysis/branches.sql",
         user_id,
         params.project,
+        params.branch,
         params.date_start,
         params.date_end
     )
@@ -72,6 +74,7 @@ pub async fn languages_activity(
         "src/lib/queries/analysis/languages.sql",
         user_id,
         params.project,
+        params.branch,
         params.date_start,
         params.date_end,
     )

@@ -10,6 +10,7 @@ use time::Date;
 #[derive(Deserialize)]
 pub struct FilterQueryParams {
     pub project: Option<String>,
+    pub branch: Option<String>,
     pub date_start: Option<Date>,
     pub date_end: Option<Date>,
 }

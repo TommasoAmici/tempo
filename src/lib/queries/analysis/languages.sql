@@ -9,8 +9,9 @@ WITH sorted_heartbeats AS (
     FROM heartbeats
     WHERE user_id = ?1
         AND "project" = COALESCE(?2, "project")
-        AND DATE("time", 'unixepoch') >= COALESCE(?3, DATE("time", 'unixepoch'))
-        AND DATE("time", 'unixepoch') <= COALESCE(?4, DATE("time", 'unixepoch'))
+        AND branch = COALESCE(?3, branch)
+        AND DATE("time", 'unixepoch') >= COALESCE(?4, DATE("time", 'unixepoch'))
+        AND DATE("time", 'unixepoch') <= COALESCE(?5, DATE("time", 'unixepoch'))
 ),
 calculated_times AS (
     SELECT id,

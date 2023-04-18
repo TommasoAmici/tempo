@@ -17,8 +17,9 @@ export default function DashboardPage() {
   const dateStart = parseDateQueryParam(searchParams.get("date_start"));
   const dateEnd = parseDateQueryParam(searchParams.get("date_end"));
   const project = searchParams.get("project");
+  const branch = searchParams.get("branch");
 
-  const props = { project, dateStart, dateEnd };
+  const props = { project, dateStart, dateEnd, branch };
 
   return (
     <div className="flex w-full flex-col gap-8">

@@ -1,13 +1,9 @@
+import type { URLFilters } from "@/hooks/url";
 import { useAnalysisLanguages } from "../hooks/useAnalysisLanguages";
-import { DateFilter } from "../lib/filters";
 
-type Props = {
-  project?: string | null;
-  dateStart?: DateFilter;
-  dateEnd?: DateFilter;
-};
+type Props = URLFilters;
 
-export function LanguageActivity({ project, dateStart, dateEnd }: Props) {
-  const { data } = useAnalysisLanguages({ project, dateStart, dateEnd });
+export function LanguageActivity({ ...filters }: Props) {
+  const { data } = useAnalysisLanguages(filters);
   return null;
 }

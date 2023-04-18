@@ -1,31 +1,31 @@
+import type { URLFilters } from "@/hooks/url";
 import { useAnalysisBranches } from "../hooks/useAnalysisBranches";
-import { DateFilter } from "../lib/filters";
 import { Alert } from "./Alert";
 import { BranchActivityChart } from "./charts/BranchActivityChart";
 
-type Props = {
-  project?: string | null;
-  dateStart?: DateFilter;
-  dateEnd?: DateFilter;
-};
+type Props = URLFilters;
 
-export function BranchesActivity({ project, dateStart, dateEnd }: Props) {
+export function BranchesActivity({ ...filters }: Props) {
   const now = Temporal.Now.plainDate("iso8601");
   const aMonthAgo = now.subtract({ months: 1 });
   const { data } = useAnalysisBranches({
-    project,
-    dateStart: dateStart ?? aMonthAgo,
-    dateEnd: dateEnd ?? now,
+    ...filters,
+    dateStart: filters.dateStart ?? aMonthAgo,
+    dateEnd: filters.dateEnd ?? now,
   });
   const allNulls = data?.every(d => d.values === null);
   if (allNulls) {
-    return (
-      <Alert className="grid h-full place-content-center">
-        <p>
-          No data available for branches outside of <code>main</code> and <code>master</code>
-        </p>
-      </Alert>
+    const message = filters.branch ? (
+      <p>
+        No data available for branch <code>{filters.branch}</code> in this time period
+      </p>
+    ) : (
+      <p>
+        No data available for branches outside of <code>main</code> and <code>master</code> in this
+        time period
+      </p>
     );
+    return <Alert className="grid h-full place-content-center">{message}</Alert>;
   }
   return <BranchActivityChart data={data} />;
 }
