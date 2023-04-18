@@ -3,6 +3,8 @@ use time::Date;
 
 use crate::errors::Error;
 
+/// Get all projects for a user
+/// If date_start and date_end are provided, only projects with heartbeats in that range will be returned
 pub async fn get_users_projects(
     pool: &SqlitePool,
     user_id: i64,
@@ -14,6 +16,30 @@ pub async fn get_users_projects(
     let results = sqlx::query_file_scalar!(
         "src/lib/queries/users_projects.sql",
         user_id,
+        date_start,
+        date_end
+    )
+    .fetch_all(&mut conn)
+    .await
+    .map_err(|_| Error::DBFailedQuery)?;
+    return Ok(results);
+}
+
+/// Get all branches for a user's project
+/// If date_start and date_end are provided, only branches with heartbeats in that range will be returned
+pub async fn get_project_branches(
+    pool: &SqlitePool,
+    user_id: i64,
+    project: &String,
+    date_start: &Option<Date>,
+    date_end: &Option<Date>,
+) -> Result<Vec<Option<String>>, Error> {
+    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
+
+    let results = sqlx::query_file_scalar!(
+        "src/lib/queries/users_project_branches.sql",
+        user_id,
+        project,
         date_start,
         date_end
     )
