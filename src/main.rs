@@ -8,8 +8,6 @@ mod errors;
 mod handlers;
 mod lib;
 
-use handlers::{analysis, heartbeats, statusbar, users};
-
 /// Run the Tempo web application
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -47,15 +45,15 @@ async fn main() -> std::io::Result<()> {
                     .service(handlers::health)
                     .service(
                         web::scope("/users")
-                            .service(heartbeats::heartbeats)
-                            .service(statusbar::statusbar)
-                            .service(users::signup)
-                            .service(users::login)
-                            .service(users::token_generate)
-                            .service(users::get_user_projects)
-                            .service(analysis::heatmap)
-                            .service(analysis::branches)
-                            .service(analysis::languages),
+                            .service(handlers::heartbeats::heartbeats)
+                            .service(handlers::statusbar::statusbar)
+                            .service(handlers::users::signup)
+                            .service(handlers::users::login)
+                            .service(handlers::users::token_generate)
+                            .service(handlers::projects::get_user_projects)
+                            .service(handlers::analysis::heatmap)
+                            .service(handlers::analysis::branches)
+                            .service(handlers::analysis::languages),
                     )
                     .service(handlers::plugins_errors),
             )

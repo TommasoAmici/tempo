@@ -4,7 +4,7 @@ use sqlx::SqlitePool;
 
 use std::str;
 
-use crate::{errors::Error, lib::queries::user::get_user_id_from_api_key};
+use crate::{errors::Error, lib::queries::users::get_user_id_from_api_key};
 
 pub async fn user_id_from_authorization_header(
     req: &HttpRequest,

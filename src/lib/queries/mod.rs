@@ -1,3 +1,4 @@
 pub mod analysis;
+pub mod projects;
 pub mod statusbar;
-pub mod user;
+pub mod users;
