@@ -1,9 +1,10 @@
 import { useProjects } from "@/hooks/useProjects";
-import { RepoIcon, TriangleDownIcon, XIcon } from "@primer/octicons-react";
-import { Button, IconButton, SelectPanel } from "@primer/react";
+import { RepoIcon, TriangleDownIcon } from "@primer/octicons-react";
+import { Button, SelectPanel } from "@primer/react";
 import { ItemInput } from "@primer/react/lib/deprecated/ActionList/List";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { ClearButton } from "./ClearButton";
 
 type Props = {};
 
@@ -66,12 +67,7 @@ export function ProjectSelect({}: Props) {
         overlayProps={{ width: "small", height: "medium" }}
       />
       {selected && (
-        <IconButton
-          onClick={() => handleSelect(undefined)}
-          aria-label="Clear selection"
-          icon={XIcon}
-          variant="invisible"
-        />
+        <ClearButton onClick={() => handleSelect(undefined)} aria-label="Clear selection" />
       )}
     </div>
   );

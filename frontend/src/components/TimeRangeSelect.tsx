@@ -1,8 +1,9 @@
-import { CalendarIcon, TriangleDownIcon, XIcon } from "@primer/octicons-react";
-import { Button, IconButton, SelectPanel } from "@primer/react";
+import { CalendarIcon, TriangleDownIcon } from "@primer/octicons-react";
+import { Button, SelectPanel } from "@primer/react";
 import { ItemInput } from "@primer/react/lib/deprecated/ActionList/List";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { ClearButton } from "./ClearButton";
 
 type TimeRangeItem = ItemInput & { dateStart: Temporal.PlainDate };
 
@@ -85,12 +86,7 @@ export function TimeRangeSelect() {
         overlayProps={{ width: "small", height: "auto" }}
       />
       {selected && (
-        <IconButton
-          onClick={() => _handleSelect(null, null)}
-          aria-label="Clear time range"
-          icon={XIcon}
-          variant="invisible"
-        />
+        <ClearButton onClick={() => _handleSelect(null, null)} aria-label="Clear time range" />
       )}
     </div>
   );
