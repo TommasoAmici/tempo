@@ -1,6 +1,7 @@
 "use client";
 import { PageHeader } from "@primer/react/drafts";
 
+import { BranchSelect } from "@/components/BranchSelect";
 import { BranchesActivity } from "@/components/BranchesActivity";
 import { ChartCard } from "@/components/ChartCard";
 import { Heatmap } from "@/components/Heatmap";
@@ -26,6 +27,7 @@ export default function DashboardPage() {
           <PageHeader.Title>{project ?? "Dashboard"}</PageHeader.Title>
           <PageHeader.Actions>
             <ProjectSelect />
+            {project && <BranchSelect project={project} />}
             <TimeRangeSelect />
           </PageHeader.Actions>
         </PageHeader.TitleArea>
