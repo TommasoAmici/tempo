@@ -26,7 +26,7 @@ branches_query AS (
     ORDER BY "date",
         "branch"
 )
-SELECT p."date" AS "date: String",
+SELECT p."date" AS "date: Date",
     CASE
         WHEN b."count" IS NOT NULL THEN JSON_GROUP_OBJECT(b."branch", b."count")
         ELSE NULL

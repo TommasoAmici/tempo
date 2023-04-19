@@ -1,13 +1,17 @@
 use serde::{Deserialize, Serialize};
 use sqlx::SqlitePool;
+use time::Date;
 
 use crate::{errors::Error, handlers::analysis::FilterQueryParams};
 
 use super::statusbar::TimePerCategory;
 
+time::serde::format_description!(serde_date_format, Date, "[year]-[month]-[day]");
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HeatmapData {
-    pub day: Option<String>,
+    #[serde(with = "serde_date_format::option")]
+    pub day: Option<Date>,
     pub value: i32,
 }
 
@@ -36,7 +40,8 @@ pub async fn days_heatmap(
 
 #[derive(Serialize, Deserialize)]
 pub struct BranchesDatum {
-    pub date: Option<String>,
+    #[serde(with = "serde_date_format::option")]
+    pub date: Option<Date>,
     pub values: Option<sqlx::types::JsonValue>,
 }
 
