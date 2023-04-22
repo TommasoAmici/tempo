@@ -1,3 +1,5 @@
+"use client";
+
 import type { URLFilters } from "@/hooks/url";
 import { useHeatmap } from "../hooks/useHeatmap";
 import { CalendarHeatmap } from "./charts/CalendarHeatmap";

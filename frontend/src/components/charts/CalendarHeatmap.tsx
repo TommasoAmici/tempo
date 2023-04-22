@@ -1,5 +1,5 @@
-// install (please make sure versions match peerDependencies)
-// yarn add @nivo/core @nivo/calendar
+"use client";
+
 import { ResponsiveTimeRange } from "@nivo/calendar";
 import colors from "tailwindcss/colors";
 import { HeatmapData } from "../../hooks/useHeatmap";

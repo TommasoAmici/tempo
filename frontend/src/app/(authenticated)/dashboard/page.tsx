@@ -1,15 +1,15 @@
 "use client";
 import { PageHeader } from "@primer/react/drafts";
+import { useSearchParams } from "next/navigation";
 
 import { BranchSelect } from "@/components/BranchSelect";
 import { BranchesActivity } from "@/components/BranchesActivity";
 import { ChartCard } from "@/components/ChartCard";
 import { Heatmap } from "@/components/Heatmap";
-import { LanguageActivity } from "@/components/LanguageActivity";
+import { LanguageStream } from "@/components/LanguageStream";
+import { ProjectSelect } from "@/components/ProjectSelect";
 import { TimeRangeSelect } from "@/components/TimeRangeSelect";
 import { parseDateQueryParam } from "@/lib/parseDateQueryParam";
-import { useSearchParams } from "next/navigation";
-import { ProjectSelect } from "../../components/ProjectSelect";
 
 export default function DashboardPage() {
   const searchParams = useSearchParams();
@@ -41,20 +41,17 @@ export default function DashboardPage() {
           <PageHeader.Title>Activity by branch</PageHeader.Title>
         </PageHeader.TitleArea>
       </PageHeader>
-      <ChartCard>
-        <div className="h-96 w-full">
-          <BranchesActivity {...props} />
-        </div>
+      <ChartCard className="h-96 w-full">
+        <BranchesActivity {...props} />
       </ChartCard>
       <PageHeader>
         <PageHeader.TitleArea>
           <PageHeader.Title>Activity by language</PageHeader.Title>
         </PageHeader.TitleArea>
       </PageHeader>
-      <ChartCard>
-        <div className="h-96 w-full">
-          <LanguageActivity {...props} />
-        </div>
+      <ChartCard className="h-96 w-full">
+        <LanguageStream {...props} />
+        {/* <LanguageActivity {...props} /> */}
       </ChartCard>
     </div>
   );

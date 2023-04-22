@@ -1,8 +1,10 @@
 "use client";
-import { AuthContext } from "@/contexts/AuthContext";
+
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { SWRConfig } from "swr";
+
+import { AuthContext } from "@/contexts/AuthContext";
 
 type Props = {
   children: React.ReactNode;
