@@ -3,9 +3,11 @@ use actix_web::{
     http::{header::ContentType, StatusCode},
     HttpResponse,
 };
+use serde::Serialize;
+use serde_json::json;
 use std::fmt;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub enum Error {
     UserAlreadyExists,
     NotAuthorized,
@@ -41,8 +43,12 @@ impl fmt::Display for Error {
 impl error::ResponseError for Error {
     fn error_response(&self) -> HttpResponse {
         HttpResponse::build(self.status_code())
-            .insert_header(ContentType::html())
-            .body(self.to_string())
+            .insert_header(ContentType::json())
+            .json(json!({
+                "status_code": self.status_code().as_u16(),
+                "error_code": self,
+                "msg": self.to_string()
+            }))
     }
 
     fn status_code(&self) -> StatusCode {
