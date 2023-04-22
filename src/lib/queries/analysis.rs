@@ -110,3 +110,32 @@ pub async fn projects_activity(
 
     Ok(results)
 }
+
+pub struct LanguageStream {
+    pub language: String,
+    pub date: Date,
+    pub count: i32,
+}
+
+pub async fn languages_stream(
+    pool: &SqlitePool,
+    user_id: i64,
+    params: &FilterQueryParams,
+) -> Result<Vec<LanguageStream>, Error> {
+    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
+    let results = sqlx::query_file_as!(
+        LanguageStream,
+        "src/lib/queries/analysis/languages_stream.sql",
+        user_id,
+        params.project,
+        params.branch,
+        params.date_start,
+        params.date_end,
+        params.sensitivity,
+    )
+    .fetch_all(&mut conn)
+    .await
+    .map_err(|_| Error::DBFailedQuery)?;
+
+    Ok(results)
+}

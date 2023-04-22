@@ -35,6 +35,7 @@ pub async fn get_time_per_language(
             branch: None,
             date_end: Some(today),
             date_start: Some(tomorrow),
+            sensitivity: None,
         },
     )
     .await

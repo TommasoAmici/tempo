@@ -54,7 +54,8 @@ async fn main() -> std::io::Result<()> {
                             .service(handlers::projects::get_project_branches)
                             .service(handlers::analysis::heatmap)
                             .service(handlers::analysis::branches)
-                            .service(handlers::analysis::languages),
+                            .service(handlers::analysis::languages)
+                            .service(handlers::analysis::languages_stream),
                     )
                     .service(handlers::plugins_errors),
             )
