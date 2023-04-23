@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { userEvent } from "@storybook/testing-library";
 
 import { Button, sizes, variants } from "./Button";
 
@@ -41,9 +42,42 @@ export const Primary: Story = {
   },
 };
 
+export const PrimaryFocused: Story = {
+  ...Primary,
+  play: async ({ step }) => {
+    await step("Press tab", async () => {
+      userEvent.tab();
+    });
+  },
+};
+
+export const PrimaryDisabled: Story = {
+  ...Primary,
+  args: {
+    disabled: true,
+  },
+};
+
 export const Secondary: Story = {
   args: {
     variant: "secondary",
+  },
+};
+
+export const SecondaryFocused: Story = {
+  ...Secondary,
+  play: async ({ step }) => {
+    await step("Press tab", async () => {
+      userEvent.tab();
+    });
+  },
+};
+
+export const SecondaryDisabled: Story = {
+  ...Secondary,
+  args: {
+    ...Secondary.args,
+    disabled: true,
   },
 };
 
