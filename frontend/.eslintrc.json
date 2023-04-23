@@ -1,3 +1,7 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:primer-react/recommended"]
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:primer-react/recommended",
+    "plugin:storybook/recommended"
+  ]
 }
