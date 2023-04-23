@@ -13,7 +13,7 @@ export function Header() {
   }
 
   return (
-    <header className="flex h-16 w-full items-center bg-brand-dark px-8 md:px-16">
+    <header className="flex h-16 w-full items-center bg-primary-700 px-8 md:px-16">
       <HeaderLink className="mr-auto" href="/">
         Tempo
       </HeaderLink>
