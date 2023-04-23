@@ -47,7 +47,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
       ref={ref}
       {...props}
       className={cx(
-        "cursor-pointer border-2 transition duration-150 focus:outline-none disabled:cursor-not-allowed",
+        "grid cursor-pointer place-content-center border-2 transition duration-150 focus:outline-none disabled:cursor-not-allowed",
         ...variantStyles[variant],
         sizeStyles[size],
         className,

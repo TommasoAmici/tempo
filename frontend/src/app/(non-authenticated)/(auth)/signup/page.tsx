@@ -1,10 +1,11 @@
 "use client";
 
 import { Alert } from "@/components/Alert";
+import { Button } from "@/components/Button";
 import { Form } from "@/components/Form";
 import { Heading } from "@/components/Heading";
 import { MIN_PASSWORD_LENGTH } from "@/lib/password";
-import { Button, FormControl, TextInput } from "@primer/react";
+import { FormControl, TextInput } from "@primer/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -76,9 +77,11 @@ export default function SignupPage() {
           <Button variant="primary" type="submit">
             Signup
           </Button>
-          <Button as={Link} href="/login" variant="invisible">
-            Login
-          </Button>
+          <Link href="/login">
+            <Button as={"div"} variant="secondary">
+              Login
+            </Button>
+          </Link>
         </div>
       </Form>
     </>
