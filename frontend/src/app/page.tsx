@@ -1,9 +1,10 @@
 "use client";
 
-import { AuthContext } from "@/contexts/AuthContext";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
+
+import { Hero } from "@/components/Hero";
+import { AuthContext } from "@/contexts/AuthContext";
 
 export default function Home() {
   const router = useRouter();
@@ -14,8 +15,25 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Link href="/dashboard">Dashboard</Link>
+    <main className="flex min-h-screen flex-col items-center justify-between">
+      <Hero
+        heading="Track your coding activity and own your data"
+        description={
+          <p>
+            Take charge of your coding activity with Tempo - the open source, self-hosted solution
+            that seamlessly integrates with{" "}
+            <a
+              className="underline"
+              target="_blank"
+              href="https://wakatime.com/"
+              rel="nofollow noopener noreferrer"
+            >
+              Wakatime
+            </a>{" "}
+            plugins.
+          </p>
+        }
+      />
     </main>
   );
 }
