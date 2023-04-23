@@ -9,15 +9,31 @@ use serde::{Deserialize, Serialize};
 use sqlx::SqlitePool;
 use time::Date;
 
+/// Query parameters for filtering data in all analysis endpoints.
+/// All parameters are optional, and not specifying them will return all data.
+///
+/// Not all parameters are supported by all endpoints.
 #[derive(Deserialize)]
 pub struct FilterQueryParams {
+    /// The project to filter by.
     pub project: Option<String>,
+    /// The branch to filter by.
     pub branch: Option<String>,
+    /// The start date to filter by.
     pub date_start: Option<Date>,
+    /// The end date to filter by.
     pub date_end: Option<Date>,
+    /// The maximum time, in seconds, allowed between heartbeats to be considered continuous.
+    ///
+    /// If not specified it defaults to 90 seconds.
     pub sensitivity: Option<i32>,
 }
 
+/// Returns the number of heartbeats per day for the given user.
+/// The user is determined by the `Authorization` header.
+///
+/// The data can be filtered by `project`, `branch`, `date_start`, and `date_end` using
+/// query parameters.
 #[get("/heatmap")]
 async fn heatmap(
     req: HttpRequest,
@@ -40,6 +56,11 @@ async fn languages(
     Ok(HttpResponse::Ok().json(data))
 }
 
+/// Returns the number of heartbeats per day grouped by branch for the given user.
+/// The user is determined by the `Authorization` header.
+///
+/// The data can be filtered by `project`, `date_start`, and `date_end` using
+/// query parameters.
 #[get("/branches")]
 async fn branches(
     req: HttpRequest,
