@@ -45,14 +45,12 @@ pub async fn get_time_per_branch(
     pool: &SqlitePool,
     user_id: i64,
 ) -> Result<Vec<TimePerCategory>, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
-
     let results = sqlx::query_file_as!(
         TimePerCategory,
         "src/lib/queries/time_per_branch.sql",
         user_id,
     )
-    .fetch_all(&mut conn)
+    .fetch_all(pool)
     .await
     .map_err(|_| Error::DBFailedQuery)?;
     return Ok(results);

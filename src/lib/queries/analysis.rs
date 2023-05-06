@@ -20,8 +20,6 @@ pub async fn days_heatmap(
     user_id: i64,
     params: &FilterQueryParams,
 ) -> Result<Vec<HeatmapData>, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
-
     let results = sqlx::query_file_as!(
         HeatmapData,
         "src/lib/queries/analysis/heatmap.sql",
@@ -31,7 +29,7 @@ pub async fn days_heatmap(
         params.date_start,
         params.date_end
     )
-    .fetch_all(&mut conn)
+    .fetch_all(pool)
     .await
     .map_err(|_| Error::DBFailedQuery)?;
 
@@ -50,8 +48,6 @@ pub async fn branches_activity(
     user_id: i64,
     params: &FilterQueryParams,
 ) -> Result<Vec<BranchesDatum>, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
-
     let results = sqlx::query_file_as!(
         BranchesDatum,
         "src/lib/queries/analysis/branches.sql",
@@ -61,7 +57,7 @@ pub async fn branches_activity(
         params.date_start,
         params.date_end
     )
-    .fetch_all(&mut conn)
+    .fetch_all(pool)
     .await
     .map_err(|_| Error::DBFailedQuery)?;
 
@@ -73,7 +69,6 @@ pub async fn languages_activity(
     user_id: i64,
     params: &FilterQueryParams,
 ) -> Result<Vec<TimePerCategory>, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
     let results = sqlx::query_file_as!(
         TimePerCategory,
         "src/lib/queries/analysis/languages.sql",
@@ -83,7 +78,7 @@ pub async fn languages_activity(
         params.date_start,
         params.date_end,
     )
-    .fetch_all(&mut conn)
+    .fetch_all(pool)
     .await
     .map_err(|_| Error::DBFailedQuery)?;
 
@@ -96,7 +91,6 @@ pub async fn projects_activity(
     date_start: &Option<time::Date>,
     date_end: &Option<time::Date>,
 ) -> Result<Vec<TimePerCategory>, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
     let results = sqlx::query_file_as!(
         TimePerCategory,
         "src/lib/queries/analysis/time_per_project.sql",
@@ -104,7 +98,7 @@ pub async fn projects_activity(
         date_start,
         date_end,
     )
-    .fetch_all(&mut conn)
+    .fetch_all(pool)
     .await
     .map_err(|_| Error::DBFailedQuery)?;
 
@@ -122,7 +116,6 @@ pub async fn languages_stream(
     user_id: i64,
     params: &FilterQueryParams,
 ) -> Result<Vec<LanguageStream>, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
     let results = sqlx::query_file_as!(
         LanguageStream,
         "src/lib/queries/analysis/languages_stream.sql",
@@ -133,7 +126,7 @@ pub async fn languages_stream(
         params.date_end,
         params.sensitivity,
     )
-    .fetch_all(&mut conn)
+    .fetch_all(pool)
     .await
     .map_err(|_| Error::DBFailedQuery)?;
 

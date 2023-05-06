@@ -17,7 +17,6 @@ pub enum Error {
     FailedToDecodeHash,
     AuthorizationMissing,
     HashMissing,
-    DBFailedToConnect,
     DBFailedToInsert,
     DBFailedQuery,
 }
@@ -34,7 +33,6 @@ impl fmt::Display for Error {
             Error::FailedToDecodeHash => write!(f, "Failed to decode hash"),
             Error::HashMissing => write!(f, "Hash missing"),
             Error::DBFailedQuery => write!(f, "Database: failed to run query"),
-            Error::DBFailedToConnect => write!(f, "Database: failed to connect"),
             Error::DBFailedToInsert => write!(f, "Database: failed to insert"),
         }
     }
@@ -62,7 +60,6 @@ impl error::ResponseError for Error {
             Error::FailedToDecodeHash => StatusCode::INTERNAL_SERVER_ERROR,
             Error::HashMissing => StatusCode::INTERNAL_SERVER_ERROR,
             Error::DBFailedQuery => StatusCode::INTERNAL_SERVER_ERROR,
-            Error::DBFailedToConnect => StatusCode::INTERNAL_SERVER_ERROR,
             Error::DBFailedToInsert => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }

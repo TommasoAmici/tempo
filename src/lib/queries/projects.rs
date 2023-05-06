@@ -11,15 +11,13 @@ pub async fn get_users_projects(
     date_start: &Option<Date>,
     date_end: &Option<Date>,
 ) -> Result<Vec<String>, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
-
     let results = sqlx::query_file_scalar!(
         "src/lib/queries/users_projects.sql",
         user_id,
         date_start,
         date_end
     )
-    .fetch_all(&mut conn)
+    .fetch_all(pool)
     .await
     .map_err(|_| Error::DBFailedQuery)?;
     return Ok(results);
@@ -33,9 +31,7 @@ pub async fn get_project_branches(
     project: &String,
     date_start: &Option<Date>,
     date_end: &Option<Date>,
-) -> Result<Vec<Option<String>>, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
-
+) -> Result<Vec<String>, Error> {
     let results = sqlx::query_file_scalar!(
         "src/lib/queries/users_project_branches.sql",
         user_id,
@@ -43,7 +39,7 @@ pub async fn get_project_branches(
         date_start,
         date_end
     )
-    .fetch_all(&mut conn)
+    .fetch_all(pool)
     .await
     .map_err(|_| Error::DBFailedQuery)?;
     return Ok(results);

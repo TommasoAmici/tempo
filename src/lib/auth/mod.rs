@@ -21,8 +21,6 @@ pub struct UserSignupAuth {
 }
 
 pub async fn create_user(pool: &SqlitePool, user: &UserSignupAuth) -> Result<String, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
-
     let password_hash = auth::password::hash_password(&user.password)?;
     let token = auth::token::generate_api_token();
     let lower_case_email = user.email.trim().to_lowercase();
@@ -32,7 +30,7 @@ pub async fn create_user(pool: &SqlitePool, user: &UserSignupAuth) -> Result<Str
         lower_case_email,
         token
     )
-    .execute(&mut conn)
+    .execute(pool)
     .await
     .map_err(|e| {
         if e.to_string().contains("UNIQUE") {
@@ -48,13 +46,12 @@ pub async fn authenticate_user(
     pool: &SqlitePool,
     user: &UserAuth,
 ) -> Result<(String, String), Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
     let lower_case_email = user.email.trim().to_lowercase();
     let row = sqlx::query!(
         r#"SELECT CAST(id AS TEXT) AS "id!: String", password_hash, token FROM users WHERE email = ? LIMIT 1"#,
         lower_case_email,
     )
-    .fetch_one(&mut conn)
+    .fetch_one(pool)
     .await
     .map_err(|_| Error::DBFailedQuery)?;
 
@@ -68,25 +65,12 @@ pub async fn authenticate_user(
 }
 
 pub async fn regenerate_token(pool: &SqlitePool, user_id: i64) -> Result<String, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
-
     let token = auth::token::generate_api_token();
 
     sqlx::query!("UPDATE users set token = ? WHERE id = ?", token, user_id)
-        .execute(&mut conn)
+        .execute(pool)
         .await
         .map_err(|_| Error::DBFailedToInsert)?;
 
     Ok(token)
-}
-
-pub async fn _user_id_from_token(pool: &SqlitePool, token: &str) -> Result<i64, Error> {
-    let mut conn = pool.acquire().await.map_err(|_| Error::DBFailedToConnect)?;
-
-    let row = sqlx::query!("SELECT id FROM users WHERE token = ? LIMIT 1", token)
-        .fetch_one(&mut conn)
-        .await
-        .map_err(|_| Error::DBFailedQuery)?;
-
-    Ok(row.id)
 }
