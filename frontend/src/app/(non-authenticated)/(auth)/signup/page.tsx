@@ -1,14 +1,13 @@
 "use client";
-
-import { Alert } from "@/components/Alert";
-import { Button } from "@/components/Button";
-import { Form } from "@/components/Form";
-import { Heading } from "@/components/Heading";
-import { MIN_PASSWORD_LENGTH } from "@/lib/password";
-import { FormControl, TextInput } from "@primer/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+import { Alert } from "@/components/Alert";
+import { Button, ButtonLink } from "@/components/Button";
+import { Form } from "@/components/Form";
+import { Heading } from "@/components/Heading";
+import { Input } from "@/components/Input";
+import { MIN_PASSWORD_LENGTH } from "@/lib/password";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -42,46 +41,41 @@ export default function SignupPage() {
       <Heading as="h1">Signup</Heading>
       {errorMessage && <Alert status={error}>{errorMessage}</Alert>}
       <Form onSubmit={handleSubmit}>
-        <FormControl required>
-          <FormControl.Label>Email</FormControl.Label>
-          <TextInput
-            className="w-full"
-            type="email"
-            name="email"
-            onChange={e => setEmail(e.currentTarget.value)}
-          />
-        </FormControl>
-        <FormControl required>
-          <FormControl.Label>Password</FormControl.Label>
-          <TextInput
-            className="w-full"
-            type="password"
-            name="password"
-            autoComplete="new-password"
-            minLength={MIN_PASSWORD_LENGTH}
-            onChange={e => setPassword(e.currentTarget.value)}
-          />
-        </FormControl>
-        <FormControl required>
-          <FormControl.Label>Repeat password</FormControl.Label>
-          <TextInput
-            className="w-full"
-            type="password"
-            name="repeat-password"
-            autoComplete="new-password"
-            minLength={MIN_PASSWORD_LENGTH}
-            onChange={e => setRepeatPassword(e.currentTarget.value)}
-          />
-        </FormControl>
+        <Input
+          label="Email"
+          className="w-full"
+          type="email"
+          name="email"
+          required
+          onChange={e => setEmail(e.currentTarget.value)}
+        />
+        <Input
+          className="w-full"
+          type="password"
+          name="password"
+          autoComplete="new-password"
+          minLength={MIN_PASSWORD_LENGTH}
+          onChange={e => setPassword(e.currentTarget.value)}
+          required
+          label="Password"
+        />
+        <Input
+          className="w-full"
+          type="password"
+          name="repeat-password"
+          autoComplete="new-password"
+          minLength={MIN_PASSWORD_LENGTH}
+          onChange={e => setRepeatPassword(e.currentTarget.value)}
+          required
+          label="Repeat password"
+        />
         <div className="flex flex-col gap-2">
           <Button variant="primary" type="submit">
             Signup
           </Button>
-          <Link href="/login">
-            <Button as={"div"} variant="secondary">
-              Login
-            </Button>
-          </Link>
+          <ButtonLink href="/login" variant="secondary">
+            Login
+          </ButtonLink>
         </div>
       </Form>
     </>

@@ -1,21 +1,11 @@
 import { cx } from "classix";
-import { forwardRef } from "react";
-
-type ButtonProps = JSX.IntrinsicAttributes &
-  React.ClassAttributes<HTMLButtonElement> &
-  React.ButtonHTMLAttributes<HTMLButtonElement>;
+import Link from "next/link";
 
 export const variants = ["primary", "secondary"] as const;
 type Variant = (typeof variants)[number];
 
 export const sizes = ["small", "medium", "large"] as const;
 type Size = (typeof sizes)[number];
-
-type Props = {
-  as?: React.ElementType;
-  variant?: Variant;
-  size?: Size;
-} & ButtonProps;
 
 const variantStyles: Record<Variant, string[]> = {
   primary: [
@@ -38,21 +28,39 @@ const sizeStyles: Record<Size, string> = {
   large: "text-2xl px-3 py-2 rounded-md focus:ring-4 focus:ring-offset-2",
 };
 
-export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
-  { className, as: Component = "button", size = "medium", variant = "primary", ...props },
-  ref,
-) {
-  return (
-    <Component
-      ref={ref}
-      {...props}
-      className={cx(
-        "grid cursor-pointer place-content-center border-2 transition duration-150 focus:outline-none disabled:cursor-not-allowed",
-        ...variantStyles[variant],
-        sizeStyles[size],
-        className,
-      )}
-    />
+function buttonClassName(variant: Variant, size: Size, className?: string) {
+  return cx(
+    "grid cursor-pointer place-content-center border-2 transition duration-150 focus:outline-none disabled:cursor-not-allowed",
+    ...variantStyles[variant],
+    sizeStyles[size],
+    className,
   );
-});
-Button.displayName = "Button";
+}
+
+type BaseProps = {
+  className?: string;
+  size?: Size;
+  variant?: Variant;
+  children: React.ReactNode;
+};
+
+type ButtonProps = BaseProps & {
+  type?: "button" | "submit" | "reset";
+};
+
+export function Button({ className, size = "medium", variant = "primary", ...props }: ButtonProps) {
+  return <button {...props} className={buttonClassName(variant, size, className)} />;
+}
+
+type ButtonLinkProps = BaseProps & {
+  href: string;
+};
+
+export function ButtonLink({
+  className,
+  size = "medium",
+  variant = "primary",
+  ...props
+}: ButtonLinkProps) {
+  return <Link {...props} className={buttonClassName(variant, size, className)} />;
+}

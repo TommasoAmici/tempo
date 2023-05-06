@@ -1,15 +1,15 @@
 "use client";
 
-import { Alert } from "@/components/Alert";
-import { Button } from "@/components/Button";
-import { Form } from "@/components/Form";
-import { Heading } from "@/components/Heading";
-import { AuthContext } from "@/contexts/AuthContext";
-import { MIN_PASSWORD_LENGTH } from "@/lib/password";
-import { FormControl, TextInput } from "@primer/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
+
+import { Alert } from "@/components/Alert";
+import { Button, ButtonLink } from "@/components/Button";
+import { Form } from "@/components/Form";
+import { Heading } from "@/components/Heading";
+import { Input } from "@/components/Input";
+import { AuthContext } from "@/contexts/AuthContext";
+import { MIN_PASSWORD_LENGTH } from "@/lib/password";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -48,35 +48,33 @@ export default function LoginPage() {
       <Heading as="h1">Login</Heading>
       {errorMessage && <Alert status={error}>{errorMessage}</Alert>}
       <Form formMethod="POST" onSubmit={handleSubmit}>
-        <FormControl required>
-          <FormControl.Label>Email</FormControl.Label>
-          <TextInput
-            className="w-full"
-            type="email"
-            name="email"
-            onChange={e => setEmail(e.currentTarget.value)}
-          />
-        </FormControl>
-        <FormControl required>
-          <FormControl.Label>Password</FormControl.Label>
-          <TextInput
-            className="w-full"
-            type="password"
-            name="password"
-            autoComplete="current-password"
-            minLength={MIN_PASSWORD_LENGTH}
-            onChange={e => setPassword(e.currentTarget.value)}
-          />
-        </FormControl>
+        <Input
+          label="Email"
+          className="w-full"
+          type="email"
+          name="email"
+          required
+          onChange={e => setEmail(e.currentTarget.value)}
+        />
+
+        <Input
+          className="w-full"
+          type="password"
+          name="password"
+          autoComplete="current-password"
+          minLength={MIN_PASSWORD_LENGTH}
+          onChange={e => setPassword(e.currentTarget.value)}
+          required
+          label="Password"
+        />
+
         <div className="flex flex-col gap-2">
           <Button variant="primary" type="submit">
             Login
           </Button>
-          <Link href="/signup">
-            <Button as="div" variant="secondary">
-              Signup
-            </Button>
-          </Link>
+          <ButtonLink href="/signup" variant="secondary">
+            Signup
+          </ButtonLink>
         </div>
       </Form>
     </>
