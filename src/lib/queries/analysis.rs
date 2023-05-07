@@ -124,7 +124,7 @@ pub async fn languages_stream(
         WITH RECURSIVE past_year_dates("date") AS (
             VALUES(COALESCE(?4, DATE('now', '-1 month')))
             UNION ALL
-            SELECT date("date", '+1 day', 'weekday 0')
+            SELECT date("date", '+1 day', 'weekday 1')
             FROM past_year_dates
             WHERE "date" < COALESCE(?5, DATE('now'))
         ),
@@ -149,7 +149,7 @@ pub async fn languages_stream(
         ),
         language_stream_cte AS (
             SELECT h."language",
-                DATE(h."time", 'unixepoch', 'weekday 0') AS "date",
+                DATE(h."time", 'unixepoch', 'weekday 1') AS "date",
                 COUNT(*) AS "count"
             FROM heartbeats h
             WHERE user_id = ?1
