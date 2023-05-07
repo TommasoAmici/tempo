@@ -1,7 +1,10 @@
 WITH RECURSIVE past_year_dates("date") AS (
     VALUES(COALESCE(?4, DATE('now', '-1 month')))
     UNION ALL
-    SELECT date("date", '+1 day', 'weekday 0')
+    SELECT CASE
+            WHEN JULIANDAY(COALESCE(?5, DATE('now'))) - JULIANDAY(COALESCE(?4, DATE('now', '-1 year'))) > 15 THEN date("date", '+1 day', 'weekday 1')
+            ELSE date("date", '+1 day')
+        END AS "date"
     FROM past_year_dates
     WHERE "date" < COALESCE(?5, DATE('now'))
 ),
@@ -15,9 +18,9 @@ all_languages AS (
         AND DATE(h."time", 'unixepoch') >= COALESCE(?4, DATE(h."time", 'unixepoch'))
         AND DATE(h."time", 'unixepoch') <= COALESCE(?5, DATE(h."time", 'unixepoch'))
     GROUP BY h."language"
-    HAVING COUNT(*) > COALESCE(?6, 100)
-),
-all_languages_dates AS (
+    ORDER BY COUNT(*) DESC
+    LIMIT 10
+), all_languages_dates AS (
     SELECT p."date" AS "date",
         a."language" AS "language"
     FROM all_languages a
@@ -25,7 +28,10 @@ all_languages_dates AS (
 ),
 language_stream_cte AS (
     SELECT h."language",
-        DATE(h."time", 'unixepoch', 'weekday 0') AS "date",
+        CASE
+            WHEN JULIANDAY(COALESCE(?5, DATE('now'))) - JULIANDAY(COALESCE(?4, DATE('now', '-1 year'))) > 15 THEN DATE(h."time", 'unixepoch', 'weekday 1')
+            ELSE DATE(h."time", 'unixepoch')
+        END AS "date",
         COUNT(*) AS "count"
     FROM heartbeats h
     WHERE user_id = ?1
