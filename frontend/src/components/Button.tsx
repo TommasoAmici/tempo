@@ -45,11 +45,19 @@ type BaseProps = {
 };
 
 type ButtonProps = BaseProps & {
+  as?: React.ElementType;
+  disabled?: boolean;
   type?: "button" | "submit" | "reset";
 };
 
-export function Button({ className, size = "medium", variant = "primary", ...props }: ButtonProps) {
-  return <button {...props} className={buttonClassName(variant, size, className)} />;
+export function Button({
+  as: Component = "button",
+  className,
+  size = "medium",
+  variant = "primary",
+  ...props
+}: ButtonProps) {
+  return <Component {...props} className={buttonClassName(variant, size, className)} />;
 }
 
 type ButtonLinkProps = BaseProps & {
