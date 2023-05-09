@@ -1,10 +1,8 @@
 import { useProjects } from "@/hooks/useProjects";
-import { RepoIcon, TriangleDownIcon } from "@primer/octicons-react";
-import { Button, SelectPanel } from "@primer/react";
-import { ItemInput } from "@primer/react/lib/deprecated/ActionList/List";
+import { RepoIcon } from "@primer/octicons-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { ClearButton } from "./ClearButton";
+import { Combobox } from "./input/Select/Combobox";
 
 type Props = {};
 
@@ -13,28 +11,22 @@ export function ProjectSelect({}: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [open, setOpen] = useState(false);
-  const [filter, setFilter] = useState("");
   const projects = useProjects({});
 
-  const items: ItemInput[] =
+  const options =
     projects.data?.map(project => ({
-      text: project,
-      id: project,
-      selectionVariant: "single",
+      value: project,
+      label: project,
     })) ?? [];
 
-  const filteredItems = items.filter(item =>
-    item.text?.toLowerCase().includes(filter.toLowerCase()),
-  );
+  const selected = searchParams.get("project");
 
-  const selected = filteredItems.find(f => f.id && f.id === searchParams.get("project"));
-
-  function handleSelect(item: ItemInput | ItemInput[] | undefined) {
+  function handleSelect(item: (typeof options)[0] | undefined) {
+    console.log(item);
     const params = new URLSearchParams(searchParams);
 
     if (item) {
-      const project = Array.isArray(item) ? item[0].id?.toString() : item.id?.toString();
+      const project = item.value;
 
       if (project !== undefined) {
         params.set("project", project);
@@ -47,24 +39,12 @@ export function ProjectSelect({}: Props) {
 
   return (
     <div className="flex gap-1">
-      <SelectPanel
-        renderAnchor={({ children, ...anchorProps }) => (
-          <Button leadingIcon={RepoIcon} trailingAction={TriangleDownIcon} {...anchorProps}>
-            {children || "Select project"}
-          </Button>
-        )}
-        placeholderText="Filter projects"
-        open={open}
-        onOpenChange={setOpen}
-        filterValue={filter}
-        items={filteredItems ?? []}
-        selected={selected}
-        onSelectedChange={handleSelect}
-        onFilterChange={setFilter}
-        showItemDividers={true}
-        loading={projects.isLoading}
-        variant="inset"
-        overlayProps={{ width: "small", height: "medium" }}
+      <Combobox
+        value={selected ? { value: selected, label: selected } : undefined}
+        options={options}
+        placeholder="Select a project"
+        setValue={handleSelect}
+        Icon={RepoIcon}
       />
       {selected && (
         <ClearButton onClick={() => handleSelect(undefined)} aria-label="Clear selection" />

@@ -1,10 +1,10 @@
 "use client";
-import { PageHeader } from "@primer/react/drafts";
 import { useSearchParams } from "next/navigation";
 
 import { BranchSelect } from "@/components/BranchSelect";
 import { BranchesActivity } from "@/components/BranchesActivity";
 import { ChartCard } from "@/components/ChartCard";
+import { Heading } from "@/components/Heading";
 import { Heatmap } from "@/components/Heatmap";
 import { LanguageStream } from "@/components/LanguageStream";
 import { ProjectSelect } from "@/components/ProjectSelect";
@@ -23,35 +23,25 @@ export default function DashboardPage() {
 
   return (
     <div className="flex w-full flex-col gap-8">
-      <PageHeader>
-        <PageHeader.TitleArea variant="large">
-          <PageHeader.Title>{project ?? "Dashboard"}</PageHeader.Title>
-          <PageHeader.Actions>
-            <ProjectSelect />
-            {project && <BranchSelect project={project} />}
-            <TimeRangeSelect />
-          </PageHeader.Actions>
-        </PageHeader.TitleArea>
-      </PageHeader>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <Heading as="h1">{project ?? "Dashboard"}</Heading>
+        <div className="flex flex-wrap gap-2">
+          <ProjectSelect />
+          {project && <BranchSelect project={project} />}
+          <TimeRangeSelect />
+        </div>
+      </div>
       <ChartCard>
         <Heatmap {...props} />
       </ChartCard>
-      <PageHeader>
-        <PageHeader.TitleArea>
-          <PageHeader.Title>Activity by branch</PageHeader.Title>
-        </PageHeader.TitleArea>
-      </PageHeader>
-      <ChartCard className="h-96 w-full">
-        <BranchesActivity {...props} />
-      </ChartCard>
-      <PageHeader>
-        <PageHeader.TitleArea>
-          <PageHeader.Title>Activity by language</PageHeader.Title>
-        </PageHeader.TitleArea>
-      </PageHeader>
+      <Heading as="h2">Activity by language</Heading>
       <ChartCard className="h-96 w-full">
         <LanguageStream {...props} />
         {/* <LanguageActivity {...props} /> */}
+      </ChartCard>
+      <Heading as="h2">Activity by branch</Heading>
+      <ChartCard className="h-96 w-full">
+        <BranchesActivity {...props} />
       </ChartCard>
     </div>
   );

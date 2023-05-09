@@ -1,11 +1,9 @@
 import { cx } from "classix";
 import Link from "next/link";
+import { Size } from "./sizes";
 
-export const variants = ["primary", "secondary"] as const;
+export const variants = ["primary", "secondary", "invisible"] as const;
 type Variant = (typeof variants)[number];
-
-export const sizes = ["small", "medium", "large"] as const;
-type Size = (typeof sizes)[number];
 
 const variantStyles: Record<Variant, string[]> = {
   primary: [
@@ -19,6 +17,12 @@ const variantStyles: Record<Variant, string[]> = {
     "hover:bg-primary-100",
     "focus:bg-primary-100 focus:ring-primary-500",
     "disabled:border-transparent disabled:hover:bg-neutral-200 disabled:bg-neutral-200 disabled:text-neutral-500",
+  ],
+  invisible: [
+    "border-transparent bg-white text-primary-800",
+    "hover:bg-primary-100",
+    "focus:bg-primary-100 focus:ring-primary-500",
+    "disabled:hover:bg-neutral-200 disabled:bg-neutral-200 disabled:text-neutral-500",
   ],
 };
 

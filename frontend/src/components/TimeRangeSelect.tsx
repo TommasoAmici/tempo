@@ -1,42 +1,35 @@
-import { CalendarIcon, TriangleDownIcon } from "@primer/octicons-react";
-import { Button, SelectPanel } from "@primer/react";
-import { ItemInput } from "@primer/react/lib/deprecated/ActionList/List";
+import { CalendarIcon } from "@primer/octicons-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { ClearButton } from "./ClearButton";
-
-type TimeRangeItem = ItemInput & { dateStart: Temporal.PlainDate };
+import { Select } from "./input/Select/Select";
 
 export function TimeRangeSelect() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [open, setOpen] = useState(false);
-  const [filter, setFilter] = useState("");
-
   const today = Temporal.Now.plainDateISO();
-  const items: TimeRangeItem[] = [
+  const options = [
     {
-      text: "Last week",
-      dateStart: today.subtract(Temporal.Duration.from({ weeks: 1 })),
+      label: "Last week",
+      value: today.subtract(Temporal.Duration.from({ weeks: 1 })),
     },
     {
-      text: "Last two weeks",
-      dateStart: today.subtract(Temporal.Duration.from({ weeks: 2 })),
+      label: "Last two weeks",
+      value: today.subtract(Temporal.Duration.from({ weeks: 2 })),
     },
     {
-      text: "Last month",
-      dateStart: today.subtract(Temporal.Duration.from({ months: 1 })),
+      label: "Last month",
+      value: today.subtract(Temporal.Duration.from({ months: 1 })),
     },
     {
-      text: "Last year",
-      dateStart: today.subtract(Temporal.Duration.from({ years: 1 })),
+      label: "Last year",
+      value: today.subtract(Temporal.Duration.from({ years: 1 })),
     },
   ];
-  const selected = items.find(item => item.dateStart.toJSON() === searchParams.get("date_start"));
-  const filteredItems = items.filter(item =>
-    item.text?.toLowerCase().includes(filter.toLowerCase()),
+
+  const selected = options.find(
+    options => options.value.toJSON() === searchParams.get("date_start"),
   );
 
   function _handleSelect(dateStart: Temporal.PlainDate | null, dateEnd: Temporal.PlainDate | null) {
@@ -55,35 +48,19 @@ export function TimeRangeSelect() {
     router.push(pathname + "?" + params.toString());
   }
 
-  function handleSelect(item: TimeRangeItem | TimeRangeItem[] | undefined) {
-    if (item) {
-      const { dateStart } = Array.isArray(item) ? item[0] : item;
-      _handleSelect(dateStart, today);
-    } else {
-      _handleSelect(null, null);
-    }
+  function handleSelect(option: (typeof options)[number]) {
+    _handleSelect(option.value, today);
   }
 
   return (
     <div className="flex gap-1">
-      <SelectPanel
-        renderAnchor={({ children, ...anchorProps }) => (
-          <Button leadingIcon={CalendarIcon} trailingAction={TriangleDownIcon} {...anchorProps}>
-            {children || "Select time range"}
-          </Button>
-        )}
-        placeholderText="Filter projects"
-        open={open}
-        filterValue={filter}
-        onFilterChange={setFilter}
-        onOpenChange={setOpen}
-        items={filteredItems ?? []}
-        selected={selected}
-        // @ts-expect-error
-        onSelectedChange={handleSelect}
-        showItemDividers={true}
-        variant="inset"
-        overlayProps={{ width: "small", height: "auto" }}
+      <Select
+        className="w-60"
+        Icon={CalendarIcon}
+        setValue={handleSelect}
+        value={selected}
+        placeholder="Select time range"
+        options={options}
       />
       {selected && (
         <ClearButton onClick={() => _handleSelect(null, null)} aria-label="Clear time range" />

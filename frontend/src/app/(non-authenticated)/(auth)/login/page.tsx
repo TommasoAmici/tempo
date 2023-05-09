@@ -4,10 +4,10 @@ import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 
 import { Alert } from "@/components/Alert";
-import { Button, ButtonLink } from "@/components/Button";
 import { Form } from "@/components/Form";
 import { Heading } from "@/components/Heading";
-import { Input } from "@/components/Input";
+import { Button, ButtonLink } from "@/components/input/Button";
+import { Input } from "@/components/input/Input";
 import { AuthContext } from "@/contexts/AuthContext";
 import { MIN_PASSWORD_LENGTH } from "@/lib/password";
 
@@ -46,7 +46,7 @@ export default function LoginPage() {
   return (
     <>
       <Heading as="h1">Login</Heading>
-      {errorMessage && <Alert status={error}>{errorMessage}</Alert>}
+      {error && errorMessage && <Alert status={error}>{errorMessage}</Alert>}
       <Form formMethod="POST" onSubmit={handleSubmit}>
         <Input
           label="Email"

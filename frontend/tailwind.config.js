@@ -1,3 +1,5 @@
+const colors = require("tailwindcss/colors");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -34,6 +36,11 @@ module.exports = {
           900: "#8c0f33",
           950: "#560119",
         },
+        neutral: colors.stone,
+        info: colors.blue,
+        success: colors.green,
+        warning: colors.yellow,
+        danger: colors.red,
       },
     },
   },

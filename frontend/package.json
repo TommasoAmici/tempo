@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -12,6 +12,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@headlessui/react": "1.7.14",
     "@nivo/bar": "0.82.1",
     "@nivo/bump": "0.82.1",
     "@nivo/calendar": "0.82.1",
@@ -19,7 +20,6 @@
     "@nivo/core": "0.82.1",
     "@nivo/tooltip": "0.82.1",
     "@primer/octicons-react": "18.3.0",
-    "@primer/react": "35.25.1",
     "autoprefixer": "10.4.14",
     "boring-avatars": "1.7.0",
     "classix": "2.1.32",
@@ -28,7 +28,6 @@
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "styled-components": "5.3.10",
     "swr": "2.1.5",
     "tailwindcss": "3.3.2",
     "temporal-polyfill": "0.1.1",
@@ -48,7 +47,6 @@
     "@types/react-dom": "18.2.4",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
-    "eslint-plugin-primer-react": "3.0.0",
     "eslint-plugin-storybook": "0.6.12",
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "0.2.8",

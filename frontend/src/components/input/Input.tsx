@@ -1,5 +1,6 @@
 import { cx } from "classix";
 import { forwardRef } from "react";
+import { iconSizeStyles } from "./Select/Icon";
 
 type InputProps = JSX.IntrinsicAttributes &
   React.ClassAttributes<HTMLInputElement> &
@@ -15,6 +16,7 @@ type Props = {
   label?: string;
   variant?: Variant;
   size?: Size;
+  Icon?: React.ComponentType<{ className?: string }>;
 } & Omit<InputProps, "size">;
 
 const variantStyles: Record<Variant, string[]> = {
@@ -31,21 +33,31 @@ const sizeStyles: Record<Size, string> = {
   large: "text-2xl px-3 py-2 rounded-md focus:ring-4 focus:ring-offset-2",
 };
 
+const iconPaddingStyles: Record<Size, string> = {
+  small: "pl-[1.70rem]",
+  medium: "pl-9",
+  large: "pl-12",
+};
+
 export const Input = forwardRef<HTMLInputElement, Props>(function Input(
-  { className, label, size = "medium", variant = "form", ...props },
+  { className, label, size = "medium", variant = "form", Icon, ...props },
   ref,
 ) {
   const input = (
-    <input
-      ref={ref}
-      {...props}
-      className={cx(
-        "grid cursor-pointer place-content-center border-2 transition duration-150 focus:outline-none disabled:cursor-not-allowed",
-        ...variantStyles[variant],
-        sizeStyles[size],
-        className,
-      )}
-    />
+    <div className="relative isolate">
+      {Icon && <Icon className={cx("absolute", iconSizeStyles[size])} />}
+      <input
+        ref={ref}
+        {...props}
+        className={cx(
+          "grid cursor-pointer place-content-center border-2 transition duration-150 focus:outline-none disabled:cursor-not-allowed",
+          ...variantStyles[variant],
+          sizeStyles[size],
+          iconPaddingStyles[size],
+          className,
+        )}
+      />
+    </div>
   );
   if (label) {
     return (

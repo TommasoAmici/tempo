@@ -1,8 +1,9 @@
-import { AuthContext } from "@/contexts/AuthContext";
 import { SignOutIcon } from "@primer/octicons-react";
-import { ActionList, ActionMenu } from "@primer/react";
 import { useContext } from "react";
+
+import { AuthContext } from "@/contexts/AuthContext";
 import { Avatar } from "../Avatar";
+import Menu from "../Menu";
 import { HeaderLink } from "./HeaderLink";
 
 export function Header() {
@@ -20,24 +21,16 @@ export function Header() {
 
       {!authenticated && <HeaderLink href="/login">Login</HeaderLink>}
       {authenticated && userID && (
-        <ActionMenu>
-          <ActionMenu.Anchor>
-            <button>
-              <Avatar seed={userID} />
-            </button>
-          </ActionMenu.Anchor>
-
-          <ActionMenu.Overlay>
-            <ActionList>
-              <ActionList.Item onClick={handleSignout}>
-                <ActionList.LeadingVisual>
-                  <SignOutIcon />
-                </ActionList.LeadingVisual>
-                Sign out
-              </ActionList.Item>
-            </ActionList>
-          </ActionMenu.Overlay>
-        </ActionMenu>
+        <Menu
+          button={<Avatar seed={userID} />}
+          items={[
+            {
+              label: "Sign out",
+              onClick: handleSignout,
+              Icon: SignOutIcon,
+            },
+          ]}
+        ></Menu>
       )}
     </header>
   );

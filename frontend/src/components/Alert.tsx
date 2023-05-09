@@ -1,27 +1,53 @@
-import { Flash } from "@primer/react";
-import { ComponentProps } from "react";
+import { cx } from "classix";
 
-function statusCodeToVariant(error: number | undefined) {
-  if (error === undefined) {
-    return undefined;
-  }
+export const variants = ["success", "warning", "danger", "info"] as const;
+type Variant = (typeof variants)[number];
 
-  if (error >= 500) {
+function statusCodeToVariant(code: number): Variant {
+  if (code >= 500) {
     return "danger";
   }
-  if (error >= 400) {
+  if (code >= 400) {
     return "warning";
   }
-  if (error >= 200) {
+  if (code >= 200) {
     return "success";
   }
-  return undefined;
+  return "info";
 }
 
-type Props = ComponentProps<typeof Flash> & {
-  status?: number;
+const variantStyles: Record<Variant, string> = {
+  success: "bg-success-50 border-success-700",
+  warning: "bg-warning-50 border-warning-500",
+  danger: "bg-danger-50 border-danger-700",
+  info: "bg-info-50 border-info-700",
 };
 
-export function Alert({ status, ...props }: Props) {
-  return <Flash {...props} variant={statusCodeToVariant(status)} />;
+type StatusProps = {
+  variant?: never;
+  status: number;
+};
+
+type VariantProps = {
+  variant: Variant;
+  status?: never;
+};
+
+type Props =
+  | {
+      className?: string;
+      children?: React.ReactNode;
+    } & (StatusProps | VariantProps);
+
+export function Alert({ status, variant, className, ...props }: Props) {
+  return (
+    <div
+      {...props}
+      className={cx(
+        "grid place-content-center rounded border-2 px-4 py-2",
+        variantStyles[variant ?? statusCodeToVariant(status)],
+        className,
+      )}
+    />
+  );
 }

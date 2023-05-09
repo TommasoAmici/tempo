@@ -1,10 +1,8 @@
 import { useBranches } from "@/hooks/useBranches";
-import { GitBranchIcon, TriangleDownIcon } from "@primer/octicons-react";
-import { Button, SelectPanel } from "@primer/react";
-import { ItemInput } from "@primer/react/lib/deprecated/ActionList/List";
+import { GitBranchIcon } from "@primer/octicons-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { ClearButton } from "./ClearButton";
+import { Combobox } from "./input/Select/Combobox";
 
 type Props = {
   project: string;
@@ -15,28 +13,21 @@ export function BranchSelect({ project }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [open, setOpen] = useState(false);
-  const [filter, setFilter] = useState("");
   const branches = useBranches({ project });
 
-  const items: ItemInput[] =
+  const options =
     branches.data?.map(branch => ({
-      text: branch,
-      id: branch,
-      selectionVariant: "single",
+      value: branch,
+      label: branch,
     })) ?? [];
 
-  const filteredItems = items.filter(item =>
-    item.text?.toLowerCase().includes(filter.toLowerCase()),
-  );
+  const selected = searchParams.get("branch");
 
-  const selected = filteredItems.find(f => f.id && f.id === searchParams.get("branch"));
-
-  function handleSelect(item: ItemInput | ItemInput[] | undefined) {
+  function handleSelect(item: (typeof options)[0] | undefined) {
     const params = new URLSearchParams(searchParams);
 
     if (item) {
-      const branch = Array.isArray(item) ? item[0].id?.toString() : item.id?.toString();
+      const branch = item.value;
 
       if (branch !== undefined) {
         params.set("branch", branch);
@@ -49,24 +40,12 @@ export function BranchSelect({ project }: Props) {
 
   return (
     <div className="flex gap-1">
-      <SelectPanel
-        renderAnchor={({ children, ...anchorProps }) => (
-          <Button leadingIcon={GitBranchIcon} trailingAction={TriangleDownIcon} {...anchorProps}>
-            {children || "Select branch"}
-          </Button>
-        )}
-        placeholderText="Filter branches"
-        open={open}
-        onOpenChange={setOpen}
-        filterValue={filter}
-        items={filteredItems ?? []}
-        selected={selected}
-        onSelectedChange={handleSelect}
-        onFilterChange={setFilter}
-        showItemDividers={true}
-        loading={branches.isLoading}
-        variant="inset"
-        overlayProps={{ width: "small", height: "medium" }}
+      <Combobox
+        value={selected ? { value: selected, label: selected } : undefined}
+        options={options}
+        placeholder="Select a branch"
+        setValue={handleSelect}
+        Icon={GitBranchIcon}
       />
       {selected && (
         <ClearButton onClick={() => handleSelect(undefined)} aria-label="Clear branch selection" />

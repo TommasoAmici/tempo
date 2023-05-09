@@ -3,10 +3,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Alert } from "@/components/Alert";
-import { Button, ButtonLink } from "@/components/Button";
 import { Form } from "@/components/Form";
 import { Heading } from "@/components/Heading";
-import { Input } from "@/components/Input";
+import { Button, ButtonLink } from "@/components/input/Button";
+import { Input } from "@/components/input/Input";
 import { MIN_PASSWORD_LENGTH } from "@/lib/password";
 
 export default function SignupPage() {
@@ -39,7 +39,7 @@ export default function SignupPage() {
   return (
     <>
       <Heading as="h1">Signup</Heading>
-      {errorMessage && <Alert status={error}>{errorMessage}</Alert>}
+      {error && errorMessage && <Alert status={error}>{errorMessage}</Alert>}
       <Form onSubmit={handleSubmit}>
         <Input
           label="Email"

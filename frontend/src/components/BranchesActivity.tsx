@@ -25,7 +25,11 @@ export function BranchesActivity({ ...filters }: Props) {
         time period
       </p>
     );
-    return <Alert className="grid h-full place-content-center">{message}</Alert>;
+    return (
+      <Alert variant="info" className="h-full">
+        {message}
+      </Alert>
+    );
   }
   return <BranchActivityChart data={data} />;
 }

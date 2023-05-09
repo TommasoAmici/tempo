@@ -1,7 +1,10 @@
 import { XIcon } from "@primer/octicons-react";
-import { IconButton } from "@primer/react";
+import { Button } from "./input/Button";
+import { iconSizeStyles } from "./input/Select/Icon";
+import { Size } from "./input/sizes";
 
 type Props = {
+  size?: Size;
   onClick: () => void;
   "aria-label": string;
 };
@@ -10,6 +13,10 @@ type Props = {
  * A to be used for clearing selections or input fields.
  * @param props
  */
-export function ClearButton(props: Props) {
-  return <IconButton {...props} icon={XIcon} variant="invisible" />;
+export function ClearButton({ size = "medium", ...props }: Props) {
+  return (
+    <Button {...props} variant="invisible">
+      <XIcon className={iconSizeStyles[size]} />
+    </Button>
+  );
 }
