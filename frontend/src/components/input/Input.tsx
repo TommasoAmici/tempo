@@ -53,7 +53,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
           "grid cursor-pointer place-content-center border-2 transition duration-150 focus:outline-none disabled:cursor-not-allowed",
           ...variantStyles[variant],
           sizeStyles[size],
-          iconPaddingStyles[size],
+          Icon && iconPaddingStyles[size],
           className,
         )}
       />
