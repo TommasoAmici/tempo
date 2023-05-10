@@ -2,11 +2,19 @@ APP = tempo
 run:
 	RUST_LOG=debug cargo run
 
-target/release/${APP}:
-	cargo build --release
+# FRONTEND
+frontend/node_modules/.install: frontend/package.json frontend/pnpm-lock.yaml
+	cd frontend && pnpm install
+	touch frontend/node_modules/.install
 
-build:
-	make target/release/${APP}
+frontend/.next/cache/touchfile: frontend/node_modules/.install $(shell find frontend/src -type f)
+	cd frontend && pnpm build
+	touch frontend/.next/cache/touchfile
+
+build_frontend: frontend/.next/cache/touchfile
+
+build: build_frontend
+	cargo build --release
 
 run_release: build
 	cargo run --release
