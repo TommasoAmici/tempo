@@ -17,7 +17,7 @@ export default function RootLayout({ children }: Props) {
       <body>
         <AuthProvider>
           <Header />
-          <div className="my-8 px-8 md:px-16">{children}</div>
+          {children}
         </AuthProvider>
       </body>
     </html>

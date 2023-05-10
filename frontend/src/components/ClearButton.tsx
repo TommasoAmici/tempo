@@ -1,13 +1,10 @@
 import { XIcon } from "@primer/octicons-react";
+import type { ComponentProps } from "react";
+
 import { Button } from "./input/Button";
 import { iconSizeStyles } from "./input/Select/Icon";
-import { Size } from "./input/sizes";
 
-type Props = {
-  size?: Size;
-  onClick: () => void;
-  "aria-label": string;
-};
+type Props = Omit<ComponentProps<typeof Button>, "children">;
 
 /**
  * A to be used for clearing selections or input fields.

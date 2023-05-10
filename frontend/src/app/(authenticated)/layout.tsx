@@ -39,9 +39,7 @@ export default function DashboardLayout({ children }: Props) {
           }).then(res => res.json()),
       }}
     >
-      <div className="flex gap-8">
-        <main className="w-full">{children}</main>
-      </div>
+      {children}
     </SWRConfig>
   );
 }

@@ -1,14 +1,21 @@
-import { useBranches } from "@/hooks/useBranches";
 import { GitBranchIcon } from "@primer/octicons-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+import { useBranches } from "@/hooks/useBranches";
 import { ClearButton } from "./ClearButton";
 import { Combobox } from "./input/Select/Combobox";
 
-type Props = {
-  project: string;
-};
+type Props =
+  | {
+      project: string;
+      disabled?: boolean;
+    }
+  | {
+      project: null;
+      disabled: true;
+    };
 
-export function BranchSelect({ project }: Props) {
+export function BranchSelect({ project, disabled }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -41,15 +48,19 @@ export function BranchSelect({ project }: Props) {
   return (
     <div className="flex gap-1">
       <Combobox
+        className="w-full"
+        disabled={disabled}
         value={selected ? { value: selected, label: selected } : undefined}
         options={options}
         placeholder="Select a branch"
         setValue={handleSelect}
         Icon={GitBranchIcon}
       />
-      {selected && (
-        <ClearButton onClick={() => handleSelect(undefined)} aria-label="Clear branch selection" />
-      )}
+      <ClearButton
+        disabled={!selected}
+        onClick={() => handleSelect(undefined)}
+        aria-label="Clear branch selection"
+      />
     </div>
   );
 }

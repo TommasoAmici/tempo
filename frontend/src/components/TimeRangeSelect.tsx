@@ -1,5 +1,6 @@
 import { CalendarIcon } from "@primer/octicons-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 import { ClearButton } from "./ClearButton";
 import { Select } from "./input/Select/Select";
 
@@ -55,16 +56,19 @@ export function TimeRangeSelect() {
   return (
     <div className="flex gap-1">
       <Select
-        className="w-60"
+        className="w-full"
         Icon={CalendarIcon}
         setValue={handleSelect}
         value={selected}
         placeholder="Select time range"
         options={options}
       />
-      {selected && (
-        <ClearButton onClick={() => _handleSelect(null, null)} aria-label="Clear time range" />
-      )}
+
+      <ClearButton
+        disabled={!selected}
+        onClick={() => _handleSelect(null, null)}
+        aria-label="Clear time range"
+      />
     </div>
   );
 }

@@ -40,15 +40,18 @@ export function ProjectSelect({}: Props) {
   return (
     <div className="flex gap-1">
       <Combobox
+        className="w-full"
         value={selected ? { value: selected, label: selected } : undefined}
         options={options}
         placeholder="Select a project"
         setValue={handleSelect}
         Icon={RepoIcon}
       />
-      {selected && (
-        <ClearButton onClick={() => handleSelect(undefined)} aria-label="Clear selection" />
-      )}
+      <ClearButton
+        disabled={!selected}
+        onClick={() => handleSelect(undefined)}
+        aria-label="Clear selection"
+      />
     </div>
   );
 }
