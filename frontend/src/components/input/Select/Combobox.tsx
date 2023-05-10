@@ -2,8 +2,9 @@ import { Combobox as BaseCombobox, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@primer/octicons-react";
 import cx from "classix";
 import { Fragment, useState } from "react";
+
 import { Input } from "../Input";
-import { Size } from "../sizes";
+import type { Size } from "../sizes";
 import { Option } from "./Option";
 
 type Value = {
@@ -12,23 +13,27 @@ type Value = {
 };
 
 type Props<T extends Value> = {
+  disabled?: boolean;
+  placeholder: string;
+  className?: string;
+
   value: T | undefined;
   options: T[] | undefined;
   setValue: (value: T) => void;
   size?: Size;
-  placeholder: string;
-  className?: string;
   Icon?: typeof ChevronDownIcon;
 };
 
 export function Combobox<T extends Value>({
+  disabled,
+  className,
+  placeholder,
+
   options,
   value,
   setValue,
   Icon,
   size = "medium",
-  className,
-  placeholder,
 }: Props<T>) {
   const [query, setQuery] = useState("");
 
@@ -43,7 +48,13 @@ export function Combobox<T extends Value>({
         );
 
   return (
-    <BaseCombobox as="div" className={cx("relative", className)} value={value} onChange={setValue}>
+    <BaseCombobox
+      disabled={disabled}
+      as="div"
+      className={cx("relative", className)}
+      value={value}
+      onChange={setValue}
+    >
       <div className="relative w-full">
         <BaseCombobox.Input
           as={Input}

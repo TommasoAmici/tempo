@@ -1,5 +1,4 @@
 import { cx } from "classix";
-import { forwardRef } from "react";
 import { iconSizeStyles } from "./Select/Icon";
 
 type InputProps = JSX.IntrinsicAttributes &
@@ -39,15 +38,22 @@ const iconPaddingStyles: Record<Size, string> = {
   large: "pl-12",
 };
 
-export const Input = forwardRef<HTMLInputElement, Props>(function Input(
-  { className, label, size = "medium", variant = "form", Icon, ...props },
-  ref,
-) {
+export function Input({
+  className,
+  label,
+  size = "medium",
+  variant = "form",
+  Icon,
+  ...props
+}: Props) {
   const input = (
     <div className="relative isolate">
-      {Icon && <Icon className={cx("absolute", iconSizeStyles[size])} />}
+      {Icon && (
+        <Icon
+          className={cx("absolute", props.disabled && "text-neutral-500", iconSizeStyles[size])}
+        />
+      )}
       <input
-        ref={ref}
         {...props}
         className={cx(
           "grid cursor-pointer place-content-center border-2 transition duration-150 focus:outline-none disabled:cursor-not-allowed",
@@ -72,5 +78,4 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
   } else {
     return input;
   }
-});
-Input.displayName = "Input";
+}
