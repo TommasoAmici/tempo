@@ -19,6 +19,7 @@ type Props<T extends Value> = {
   placeholder: string;
   className?: string;
   Icon?: typeof ChevronDownIcon;
+  disabled?: boolean;
 };
 
 export function Select<T extends Value>({
@@ -29,6 +30,7 @@ export function Select<T extends Value>({
   placeholder,
   className,
   Icon,
+  disabled,
 }: Props<T>) {
   return (
     <Listbox
@@ -36,6 +38,7 @@ export function Select<T extends Value>({
       className={cx("relative flex flex-col", className)}
       value={value}
       onChange={setValue}
+      disabled={disabled}
     >
       <Listbox.Label className="sr-only">{placeholder}</Listbox.Label>
       <Listbox.Button

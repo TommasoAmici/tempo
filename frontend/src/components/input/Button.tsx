@@ -1,6 +1,8 @@
 import { cx } from "classix";
 import Link from "next/link";
-import { Size } from "./sizes";
+import type { ComponentProps } from "react";
+
+import type { Size } from "./sizes";
 
 export const variants = ["primary", "secondary", "invisible"] as const;
 type Variant = (typeof variants)[number];
@@ -50,9 +52,9 @@ type BaseProps = {
 
 type ButtonProps = BaseProps & {
   as?: React.ElementType;
-  disabled?: boolean;
-  type?: "button" | "submit" | "reset";
-};
+} & JSX.IntrinsicAttributes &
+  React.ClassAttributes<HTMLButtonElement> &
+  React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function Button({
   as: Component = "button",
@@ -64,9 +66,7 @@ export function Button({
   return <Component {...props} className={buttonClassName(variant, size, className)} />;
 }
 
-type ButtonLinkProps = BaseProps & {
-  href: string;
-};
+type ButtonLinkProps = BaseProps & ComponentProps<typeof Link>;
 
 export function ButtonLink({
   className,
