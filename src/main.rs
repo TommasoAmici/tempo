@@ -3,10 +3,7 @@ use actix_web::{web, App, HttpServer};
 use clap::Parser;
 use env_logger::Env;
 use sqlx::sqlite::SqlitePool;
-
-mod errors;
-mod handlers;
-mod lib;
+use tempo::handlers;
 
 /// Run the Tempo web application
 #[derive(Parser, Debug)]

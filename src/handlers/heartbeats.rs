@@ -1,5 +1,5 @@
-use crate::lib::queries::heartbeats::insert_heartbeats;
-use crate::lib::{
+use crate::queries::heartbeats::insert_heartbeats;
+use crate::{
     auth::parse_header::user_id_from_authorization_header, queries::heartbeats::Heartbeat,
 };
 use actix_web::{post, web, Error as AWError, HttpRequest, HttpResponse};

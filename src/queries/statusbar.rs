@@ -41,17 +41,14 @@ pub async fn get_time_per_language(
     .await
 }
 
-pub async fn get_time_per_branch(
+pub async fn _get_time_per_branch(
     pool: &SqlitePool,
     user_id: i64,
 ) -> Result<Vec<TimePerCategory>, Error> {
-    let results = sqlx::query_file_as!(
-        TimePerCategory,
-        "src/lib/queries/time_per_branch.sql",
-        user_id,
-    )
-    .fetch_all(pool)
-    .await
-    .map_err(|_| Error::DBFailedQuery)?;
+    let results =
+        sqlx::query_file_as!(TimePerCategory, "src/queries/time_per_branch.sql", user_id,)
+            .fetch_all(pool)
+            .await
+            .map_err(|_| Error::DBFailedQuery)?;
     return Ok(results);
 }

@@ -1,4 +1,4 @@
-use crate::lib::types::{Duration, Hour, Minute, Second, Status};
+use crate::types::{Duration, Hour, Minute, Second, Status};
 
 fn hours_from_seconds(duration: Duration) -> Hour {
     (duration / 3600.0).round() as Hour

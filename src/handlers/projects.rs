@@ -1,4 +1,4 @@
-use crate::lib::{auth::parse_header::user_id_from_authorization_header, queries};
+use crate::{auth::parse_header::user_id_from_authorization_header, queries};
 use actix_web::{get, web, Error as AWError, HttpRequest, HttpResponse};
 use sqlx::SqlitePool;
 

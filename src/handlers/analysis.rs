@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::lib::{
+use crate::{
     auth::parse_header::user_id_from_authorization_header,
     queries::{self, analysis::days_heatmap},
 };

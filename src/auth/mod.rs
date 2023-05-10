@@ -1,5 +1,5 @@
+use crate::auth;
 use crate::errors::Error;
-use crate::lib::auth;
 use serde::{Deserialize, Serialize};
 use sqlx::SqlitePool;
 

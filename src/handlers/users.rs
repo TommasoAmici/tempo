@@ -1,9 +1,9 @@
 use crate::{
-    errors::Error,
-    lib::auth::{
+    auth::{
         authenticate_user, create_user, parse_header::user_id_from_authorization_header,
         regenerate_token, UserAuth, UserSignupAuth,
     },
+    errors::Error,
 };
 use actix_web::{post, web, Error as AWError, HttpRequest, HttpResponse};
 use serde_json::json;

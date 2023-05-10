@@ -12,7 +12,7 @@ pub async fn get_users_projects(
     date_end: &Option<Date>,
 ) -> Result<Vec<String>, Error> {
     let results = sqlx::query_file_scalar!(
-        "src/lib/queries/users_projects.sql",
+        "src/queries/users_projects.sql",
         user_id,
         date_start,
         date_end
@@ -33,7 +33,7 @@ pub async fn get_project_branches(
     date_end: &Option<Date>,
 ) -> Result<Vec<String>, Error> {
     let results = sqlx::query_file_scalar!(
-        "src/lib/queries/users_project_branches.sql",
+        "src/queries/users_project_branches.sql",
         user_id,
         project,
         date_start,

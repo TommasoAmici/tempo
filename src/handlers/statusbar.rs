@@ -1,8 +1,8 @@
-use crate::lib::auth::parse_header::user_id_from_authorization_header;
-use crate::lib::duration::duration_status;
-use crate::lib::queries;
-use crate::lib::queries::statusbar::TimePerCategory;
-use crate::lib::types::{Status, StatusbarResponse, StatusbarResponseData};
+use crate::auth::parse_header::user_id_from_authorization_header;
+use crate::duration::duration_status;
+use crate::queries;
+use crate::queries::statusbar::TimePerCategory;
+use crate::types::{Status, StatusbarResponse, StatusbarResponseData};
 use actix_web::{get, web, Error as AWError, HttpRequest, HttpResponse};
 use sqlx::SqlitePool;
 

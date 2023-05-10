@@ -1,5 +1,3 @@
-use std::result;
-
 use serde::{Deserialize, Serialize};
 use sqlx::SqlitePool;
 use time::Date;
@@ -24,7 +22,7 @@ pub async fn days_heatmap(
 ) -> Result<Vec<HeatmapData>, Error> {
     let results = sqlx::query_file_as!(
         HeatmapData,
-        "src/lib/queries/analysis/heatmap.sql",
+        "src/queries/analysis/heatmap.sql",
         user_id,
         params.project,
         params.branch,
@@ -52,7 +50,7 @@ pub async fn branches_activity(
 ) -> Result<Vec<BranchesDatum>, Error> {
     let results = sqlx::query_file_as!(
         BranchesDatum,
-        "src/lib/queries/analysis/branches.sql",
+        "src/queries/analysis/branches.sql",
         user_id,
         params.project,
         params.branch,
@@ -73,7 +71,7 @@ pub async fn languages_activity(
 ) -> Result<Vec<TimePerCategory>, Error> {
     let results = sqlx::query_file_as!(
         TimePerCategory,
-        "src/lib/queries/analysis/languages.sql",
+        "src/queries/analysis/languages.sql",
         user_id,
         params.project,
         params.branch,
@@ -95,7 +93,7 @@ pub async fn projects_activity(
 ) -> Result<Vec<TimePerCategory>, Error> {
     let results = sqlx::query_file_as!(
         TimePerCategory,
-        "src/lib/queries/analysis/time_per_project.sql",
+        "src/queries/analysis/time_per_project.sql",
         user_id,
         date_start,
         date_end,
@@ -193,7 +191,7 @@ pub async fn languages_stream(
 
     // let results = sqlx::query_file_as_unchecked!(
     //     LanguageStream,
-    //     "src/lib/queries/analysis/languages_stream.sql",
+    //     "src/queries/analysis/languages_stream.sql",
     //     user_id,
     //     params.project,
     //     params.branch,

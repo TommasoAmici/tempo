@@ -34,8 +34,6 @@ type OperatingSystem = Status;
 
 type Machine = Status;
 
-struct DateRange {}
-
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StatusbarResponseData {
     pub categories: Vec<Category>,
@@ -46,7 +44,6 @@ pub struct StatusbarResponseData {
     pub machines: Vec<Machine>,
     pub operating_systems: Vec<OperatingSystem>,
     pub projects: Vec<Project>,
-    // range: DateRange,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
