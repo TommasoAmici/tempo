@@ -3,6 +3,7 @@ use actix_web::{post, route, HttpResponse, Responder};
 pub mod analysis;
 pub mod heartbeats;
 pub mod projects;
+pub mod static_files;
 pub mod statusbar;
 pub mod users;
 

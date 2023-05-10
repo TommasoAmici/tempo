@@ -40,6 +40,10 @@ async fn main() -> std::io::Result<()> {
         App::new() // store db pool as Data object
             .app_data(web::Data::new(pool.clone()))
             .wrap(Logger::default())
+            .service(handlers::static_files::index)
+            .service(handlers::static_files::login)
+            .service(handlers::static_files::signup)
+            .service(handlers::static_files::dashboard)
             .service(
                 web::scope("/api/v1")
                     .service(handlers::health)
@@ -59,6 +63,7 @@ async fn main() -> std::io::Result<()> {
                     )
                     .service(handlers::plugins_errors),
             )
+            .service(handlers::static_files::dist)
     })
     .workers(args.workers)
     .bind(("127.0.0.1", args.port))?
