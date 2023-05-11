@@ -23,8 +23,8 @@ dependencies:
     specifier: 0.83.0
     version: 0.83.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
   '@primer/octicons-react':
-    specifier: 18.3.0
-    version: 18.3.0(react@18.2.0)
+    specifier: 19.1.0
+    version: 19.1.0(react@18.2.0)
   autoprefixer:
     specifier: 10.4.14
     version: 10.4.14(postcss@8.4.23)
@@ -2250,11 +2250,11 @@ packages:
       webpack: 5.82.1(esbuild@0.17.18)
     dev: true
 
-  /@primer/octicons-react@18.3.0(react@18.2.0):
-    resolution: {integrity: sha512-kOoc4wrBw3bPe2ZPj9BmCwXdEkw8hxUX/tFCvcjOsZ6eywaQXm3PR0yZnPZxZ8o4RFj2tdg/cwGr4+cU83weHw==}
+  /@primer/octicons-react@19.1.0(react@18.2.0):
+    resolution: {integrity: sha512-owWS3jHcsMOQMRzXURSnbqkkQCgmNOZWmm/vejzwnPU21m8Wz1Xng5i0pu1B/VuW7cmsNh5+r5XsVM8r1igY6A==}
     engines: {node: '>=8'}
     peerDependencies:
-      react: '>=15'
+      react: '>=16.3'
     dependencies:
       react: 18.2.0
     dev: false
