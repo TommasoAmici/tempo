@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { createContext, useState } from "react";
 
 type AuthContextData = {
@@ -26,7 +26,6 @@ type Props = {
 };
 
 export function AuthProvider({ children }: Props) {
-  const router = useRouter();
   const cachedAPIToken = typeof window !== "undefined" ? localStorage.getItem("apiToken") : null;
   const cachedUserID = typeof window !== "undefined" ? localStorage.getItem("userID") : null;
   const [apiToken, setApiToken] = useState(cachedAPIToken);
@@ -37,9 +36,10 @@ export function AuthProvider({ children }: Props) {
   function signout() {
     setApiToken(null);
     setUserID(null);
+    // TODO: use cookies instead of localStorage
     localStorage.removeItem("apiToken");
     localStorage.removeItem("userID");
-    router.push("/");
+    redirect("/");
   }
 
   return (

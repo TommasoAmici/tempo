@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { redirect } from "next/navigation";
+import { useContext } from "react";
 import { SWRConfig } from "swr";
 
 import { AuthContext } from "@/contexts/AuthContext";
@@ -10,19 +10,11 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function DashboardLayout({ children }: Props) {
-  const router = useRouter();
+export default function AppLayout({ children }: Props) {
   const { apiToken } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (!apiToken) {
-      router.push("/login");
-      return;
-    }
-  }, []);
-
   if (!apiToken) {
-    return null;
+    redirect("/login");
   }
 
   return (
