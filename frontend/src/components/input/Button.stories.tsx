@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent } from "@storybook/testing-library";
 
+import { CalendarIcon } from "@primer/octicons-react";
 import { Button, variants } from "./Button";
 import { sizes } from "./sizes";
 
@@ -56,6 +57,13 @@ export const PrimaryDisabled: Story = {
   ...Primary,
   args: {
     disabled: true,
+  },
+};
+
+export const PrimaryWithIcon: Story = {
+  ...Primary,
+  args: {
+    Icon: CalendarIcon,
   },
 };
 

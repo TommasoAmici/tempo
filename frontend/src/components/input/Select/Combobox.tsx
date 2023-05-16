@@ -57,11 +57,11 @@ export function Combobox<T extends Value>({
     >
       <div className="relative w-full">
         <BaseCombobox.Input
+          value={value ? value.label : ""}
           as={Input}
           Icon={Icon}
           size={size}
           placeholder={placeholder}
-          displayValue={() => value?.label ?? ""}
           className={"w-full truncate pr-6 hover:bg-primary-100 focus:bg-primary-100"}
           onChange={event => setQuery(event.currentTarget.value)}
         />

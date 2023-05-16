@@ -2,6 +2,7 @@ import { cx } from "classix";
 import Link from "next/link";
 import type { ComponentProps } from "react";
 
+import { iconGapStyles, iconSizeStyles } from "./Select/Icon";
 import type { Size } from "./sizes";
 
 export const variants = ["primary", "secondary", "invisible"] as const;
@@ -48,6 +49,7 @@ type BaseProps = {
   size?: Size;
   variant?: Variant;
   children: React.ReactNode;
+  Icon?: React.ComponentType<{ className?: string }>;
 };
 
 type ButtonProps = BaseProps & {
@@ -61,9 +63,18 @@ export function Button({
   className,
   size = "medium",
   variant = "primary",
+  Icon,
+  children,
   ...props
 }: ButtonProps) {
-  return <Component {...props} className={buttonClassName(variant, size, className)} />;
+  return (
+    <Component {...props} className={buttonClassName(variant, size, className)}>
+      <span className={cx("flex items-center", iconGapStyles[size])}>
+        {Icon && <Icon className={iconSizeStyles[size]} />}
+        {children}
+      </span>
+    </Component>
+  );
 }
 
 type ButtonLinkProps = BaseProps & ComponentProps<typeof Link>;

@@ -1,8 +1,7 @@
-import { cx } from "classix";
-
 import { BranchSelect } from "./BranchSelect";
 import { Heading } from "./Heading";
 import { ProjectSelect } from "./ProjectSelect";
+import { Sidebar } from "./Sidebar";
 import { TimeRangeSelect } from "./TimeRangeSelect";
 
 type Props = {
@@ -12,7 +11,7 @@ type Props = {
 
 export function SidebarFilters({ className, project }: Props) {
   return (
-    <aside className={cx("sticky top-0 flex flex-col gap-2 bg-neutral-100 px-4 py-8", className)}>
+    <Sidebar className={className}>
       <Heading as="h2">Filters</Heading>
       <ProjectSelect />
       {project === null ? (
@@ -21,6 +20,6 @@ export function SidebarFilters({ className, project }: Props) {
         <BranchSelect project={project} />
       )}
       <TimeRangeSelect />
-    </aside>
+    </Sidebar>
   );
 }

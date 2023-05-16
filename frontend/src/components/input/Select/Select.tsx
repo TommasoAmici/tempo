@@ -3,7 +3,6 @@ import { ChevronDownIcon } from "@primer/octicons-react";
 import { cx } from "classix";
 import { Button } from "../Button";
 import { Size } from "../sizes";
-import { iconGapStyles, iconSizeStyles } from "./Icon";
 import { Option } from "./Option";
 
 type Value = {
@@ -46,11 +45,9 @@ export function Select<T extends Value>({
         size={size}
         variant="secondary"
         className="w-full place-content-start truncate !text-neutral-900"
+        Icon={Icon}
       >
-        <span className={cx("flex items-center", iconGapStyles[size])}>
-          {Icon && <Icon className={iconSizeStyles[size]} />}
-          {value?.label ?? placeholder}
-        </span>
+        {value?.label ?? placeholder}
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
           <ChevronDownIcon className="h-5 w-5 text-neutral-600" aria-hidden="true" />
         </span>
