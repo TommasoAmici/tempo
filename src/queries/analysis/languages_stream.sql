@@ -42,11 +42,11 @@ language_stream_cte AS (
     GROUP BY h."language",
         "date"
 )
-SELECT a."date" AS "date",
+SELECT a."date" AS "date!: Date",
     a."language" AS "language",
-    l."count" AS "count"
+    l."count" AS "count!: i32"
 FROM all_languages_dates a
     LEFT JOIN language_stream_cte l ON a."date" = l."date"
     AND a."language" = l."language"
 ORDER BY "language",
-    "date";
+    "date: Date";
