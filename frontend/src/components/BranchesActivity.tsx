@@ -1,6 +1,7 @@
 import type { URLFilters } from "@/hooks/url";
 import { useAnalysisBranches } from "../hooks/useAnalysisBranches";
 import { Alert } from "./Alert";
+import { ChartCard } from "./ChartCard";
 import { BranchActivityChart } from "./charts/BranchActivityChart";
 
 type Props = URLFilters;
@@ -31,5 +32,9 @@ export function BranchesActivity({ ...filters }: Props) {
       </Alert>
     );
   }
-  return <BranchActivityChart data={data} />;
+  return (
+    <ChartCard className="h-96 w-full">
+      <BranchActivityChart data={data} />
+    </ChartCard>
+  );
 }

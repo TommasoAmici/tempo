@@ -2,7 +2,6 @@
 import { useSearchParams } from "next/navigation";
 
 import { BranchesActivity } from "@/components/BranchesActivity";
-import { ChartCard } from "@/components/ChartCard";
 import { Heading } from "@/components/Heading";
 import { Heatmap } from "@/components/Heatmap";
 import { LanguageStream } from "@/components/LanguageStream";
@@ -23,17 +22,11 @@ export default function DashboardPage() {
     <div className="flex h-[calc(100vh-64px)] overflow-scroll">
       <main className="flex w-3/4 flex-col gap-8 px-8 py-8 md:px-16">
         <Heading as="h1">{project ?? "Dashboard"}</Heading>
-        <ChartCard>
-          <Heatmap {...props} />
-        </ChartCard>
+        <Heatmap {...props} />
         <Heading as="h2">Activity by language</Heading>
-        <ChartCard className="h-96 w-full">
-          <LanguageStream {...props} />
-        </ChartCard>
+        <LanguageStream {...props} />
         <Heading as="h2">Activity by branch</Heading>
-        <ChartCard className="h-96 w-full">
-          <BranchesActivity {...props} />
-        </ChartCard>
+        <BranchesActivity {...props} />
       </main>
       <SidebarFilters className="w-1/4" project={project} />
     </div>
