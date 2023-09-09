@@ -30,7 +30,14 @@ async fn heartbeats(
     let user_id = user_id_from_authorization_header(&req, &pool).await?;
     let machine = get_header_or_default(&req, "X-Machine-Name", "");
 
-    insert_heartbeats(&pool, user_id, machine, &heartbeats).await?;
+    // filter out hearbeats from non text files
+    let filtered: Vec<Heartbeat> = heartbeats
+        .iter()
+        .filter(|h| h.lines.is_some())
+        .cloned()
+        .collect();
+
+    insert_heartbeats(&pool, user_id, machine, &filtered).await?;
 
     Ok(HttpResponse::Accepted().json(json!(HeartbeatResponse {
         responses: heartbeats.iter().map(|_| vec![None, Some(201)]).collect()

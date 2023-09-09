@@ -6,7 +6,7 @@ use serde_json::json;
 use sqlx::SqlitePool;
 use sqlx::{QueryBuilder, Sqlite};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Heartbeat {
     pub branch: String,
     pub category: String,
@@ -16,7 +16,7 @@ pub struct Heartbeat {
     pub is_write: Option<bool>,
     pub language: Option<String>,
     pub lineno: Option<i64>,
-    pub lines: i64,
+    pub lines: Option<i64>,
     pub project: String,
     pub project_root_count: Option<i64>,
     pub time: f64,
