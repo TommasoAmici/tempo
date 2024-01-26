@@ -11,8 +11,8 @@ time::serde::format_description!(serde_date_format, Date, "[year]-[month]-[day]"
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HeatmapData {
     #[serde(with = "serde_date_format::option")]
-    pub day: Option<Date>,
-    pub value: i32,
+    pub date: Option<Date>,
+    pub value: Option<i32>,
 }
 
 pub async fn days_heatmap(

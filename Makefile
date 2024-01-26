@@ -3,15 +3,16 @@ run:
 	RUST_LOG=debug cargo run
 
 # FRONTEND
-frontend/node_modules/.install: frontend/package.json frontend/pnpm-lock.yaml
-	cd frontend && pnpm install
+frontend/node_modules/.install: frontend/package.json frontend/bun.lockb
+	cd frontend && bun install
 	touch frontend/node_modules/.install
 
-frontend/.next/cache/touchfile: frontend/node_modules/.install $(shell find frontend/src -type f)
-	cd frontend && pnpm build
-	touch frontend/.next/cache/touchfile
+frontend/node_modules/.cache/touchfile: frontend/node_modules/.install $(shell find frontend/src -type f)
+	cd frontend && bun run build
+	mkdir -p frontend/node_modules/.cache
+	touch frontend/node_modules/.cache/touchfile
 
-build_frontend: frontend/.next/cache/touchfile
+build_frontend: frontend/node_modules/.cache/touchfile
 
 build: build_frontend
 	cargo build --release

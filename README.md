@@ -26,14 +26,14 @@ command will create a database named `tempo.db` and apply the required migration
 ### Build and run application
 
 Before proceeding, you are going to need to install the dependencies listed in
-[.tool-versions](./.tool-versions). I use [jdxcode/rtx](https://github.com/jdxcode/rtx)
+[.tool-versions](./.tool-versions). I use [mise](https://mise.jdx.dev/)
 to manage runtimes, but you can use whatever you want.
 
 At this point you can build the application. You can do this simply with `make build`.
 It will take care of installing the required dependencies and building the frontend
-application with `pnpm` before building the backend with `cargo`.
+application with `bun` before building the backend with `cargo`.
 
-The frontend application is a Next.js application configured to output static files to be
+The frontend application is a SvelteKit application configured to output static files to be
 embedded in the backend binary. This means that the backend binary is completely
 self-contained and can be run without any additional files. Database migrations are also
 baked into the binary, so you don't need to worry about running them manually.
